@@ -1,0 +1,102 @@
+<!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          @if($utils::checkPermissions('view_dashboard'))
+          <li class="nav-item has-treeview">
+            <a href="{{ url('/home') }}" class="nav-link {{ (isset($side_bar) && ($side_bar == 'side_dashboard')) ? 'active' : ''  }}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          @endif
+
+          <li class="nav-item has-treeview">
+            <a href="{{ url('/profile') }}" class="nav-link {{ (isset($side_bar) && ($side_bar == 'side_profile')) ? 'active' : ''  }}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Profile
+              </p>
+            </a>
+          </li>
+
+          @if($utils::checkPermissions('view_system'))
+          <li class="nav-item has-treeview {{ (isset($side_bar) && isset($sub_bar) && $side_bar == 'side_system' ) ? 'menu-open' : ''  }}">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tools"></i>
+              <p>
+                System
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if($utils::checkPermissions('view_users'))
+              <li class="nav-item">
+                <a href="{{ url('/systemUsers') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_users')) ? 'active' : ''  }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Users</p>
+                </a>
+              </li>
+              @endif
+              @if($utils::checkPermissions('view_teams'))
+              <li class="nav-item">
+                <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Teams</p>
+                </a>
+              </li>
+              @endif
+              @if($utils::checkPermissions('view_roles'))
+              <li class="nav-item">
+                <a href="pages/layout/fixed-footer.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Employee Roles</p>
+                </a>
+              </li>
+              @endif
+              @if($utils::checkPermissions('view_tools'))
+              <li class="nav-item">
+                <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tools</p>
+                </a>
+              </li>
+              @endif
+            </ul>
+          </li>
+          @endif
+
+          @if($utils::checkPermissions('view_report'))
+          <li class="nav-item has-treeview {{ (isset($side_bar) && isset($sub_bar) && $side_bar == 'side_reports' ) ? 'menu-open' : ''  }}">
+            <a href="#" class="nav-link {{ (isset($side_bar) && ($side_bar == 'side_reports')) ? 'active' : ''  }}">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Report
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if($utils::checkPermissions('view_tools_proficiency'))
+              <li class="nav-item">
+                <a href="{{ url('/toolsProficiency') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_tool_prof')) ? 'active' : ''  }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tools Proficiency</p>
+                </a>
+              </li>
+              @endif
+              @if($utils::checkPermissions('view_training_status'))
+              <li class="nav-item">
+                <a href="{{ url('/trainingStatus') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_training_status')) ? 'active' : ''  }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Training Status</p>
+                </a>
+              </li>
+              @endif
+            </ul>
+          </li>
+          @endif
+      </nav>
+      <!-- /.sidebar-menu -->
