@@ -15,12 +15,9 @@
                 <thead>
                 <tr>
                   <th>Tools</th>
-                  <th>P0</th>
-                  <th>P1</th>
-                  <th>P2</th>
-                  <th>P3</th>
-                  <th>P4</th>
-                  <th>P5</th>
+                  <th>Not Yet Started</th>
+                  <th>On Going</th>
+                  <th>Completed</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,17 +26,11 @@
                   <td>10</td>
                   <td>1</td>
                   <td>4</td>
-                  <td>7</td>
-                  <td>9</td>
-                  <td>1</td>
                 </tr>
                 <tr>
                   <td>Informatica</td>
                   <td>2</td>
                   <td>4</td>
-                  <td>1</td>
-                  <td>4</td>
-                  <td>9</td>
                   <td>1</td>
                 </tr>
                 </tbody>
@@ -48,9 +39,6 @@
                   <th>Total:</th>
                   <th>5</th>
                   <th>5</th>
-                  <th>3</th>
-                  <th>2</th>
-                  <th>2</th>
                   <th>3</th>
                 </tr>
                 </tfoot>
@@ -62,48 +50,43 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Summary by Name</h3>
+              <h3 class="card-title">Summary by Team</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Name</th>
                   <th>Team</th>
-                  <th>Role</th>
-                  <th>Tools</th>
-                  <th>Points</th>
+                  <th>Not Yet Started</th>
+                  <th>On Going</th>
+                  <th>Completed</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>SQL</td>
-                  <td>P4</td>
+                  <td>Team A</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
                 </tr>
                 <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>Informatica</td>
-                  <td>P2</td>
+                  <td>Team B</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
                 </tr>
                 <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>Python</td>
-                  <td>P3</td>
+                  <td>Team C</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
                 </tr>
                 <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>Data Modeling</td>
-                  <td>P1</td>
+                  <td>Team D</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>4</td>
                 </tr>
                 </tbody>
                 <tfoot>
