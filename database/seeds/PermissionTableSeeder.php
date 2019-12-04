@@ -43,6 +43,42 @@ class PermissionTableSeeder extends Seeder
             [
                 "permission_key" => "view_training_status",
                 "description" => "View Training Status",
+            ],
+            [
+                "permission_key" => "add_teams",
+                "description" => "System Teams Add",
+            ],
+            [
+                "permission_key" => "edit_teams",
+                "description" => "System Teams Edit",
+            ],
+            [
+                "permission_key" => "disable_teams",
+                "description" => "System Teams Disable",
+            ],
+            [
+                "permission_key" => "delete_teams",
+                "description" => "System Teams Delete",
+            ],
+            [
+                "permission_key" => "view_user_profile",
+                "description" => "User Profile View",
+            ],
+            [
+                "permission_key" => "edit_user_profile",
+                "description" => "User Profile Edit",
+            ],
+            [
+                "permission_key" => "disable_user_profile",
+                "description" => "User Profile Disable",
+            ],
+            [
+                "permission_key" => "delete_user_profile",
+                "description" => "User Profile Delete",
+            ],
+            [
+                "permission_key" => "assign_system_role_user_profile",
+                "description" => "User Profile Assign System Role",
             ]
     	];
 

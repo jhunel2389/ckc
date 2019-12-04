@@ -18,4 +18,21 @@ class Utils extends Controller
     	
         return !empty($isHave);
     }
+
+    public static function statusIntToString($statusInt){
+        switch ($statusInt) {
+            case self::STATUS_ACTIVE:
+                return "Active";
+                break;
+            case self::STATUS_DISABLED:
+                return "Disabled";
+                break;
+            case self::STATUS_DELETED:
+                return "Deleted";
+                break;
+            default:
+                return $statusInt;
+                break;
+        }
+    }
 }

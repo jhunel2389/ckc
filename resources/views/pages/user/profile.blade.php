@@ -12,7 +12,7 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       src="../resources/dist/img/user4-128x128.jpg"
+                       src="{{asset('../resources/dist/img/user4-128x128.jpg')}}"
                        alt="User profile picture">
                 </div>
 
@@ -26,6 +26,9 @@
 	                  <li class="list-group-item">
 	                    <b>Email:</b> <a class="float-right">{{$user_info['email']}}</a>
 	                  </li>
+                    <li class="list-group-item">
+                      <b>System Role:</b> <a class="float-right">{{$user_info['role_description']}}</a>
+                    </li>
 	                  <li class="list-group-item">
 	                    <b>Site Location:</b> <a class="float-right">{{$user_info['site_location']}}</a>
 	                  </li>
@@ -33,7 +36,7 @@
 	                    <b>Shift:</b> <a class="float-right">{{$user_info['shift']}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Team:</b> <a class="float-right">{{$user_info['team']}}</a>
+	                    <b>Team:</b> <a class="float-right">{{$user_info['team_name']}}</a>
 	                  </li>
 	                  <li class="list-group-item">
 	                    <b>Accenture Exp.:</b> <a class="float-right">{{$user_info['accenture_exp']}}</a>
@@ -42,9 +45,11 @@
 	                    <b>Working Exp.:</b> <a class="float-right">{{$user_info['working_exp']}}</a>
 	                  </li>
 	                </ul>
+                  @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
                   <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
                   Edit
-                </button>
+                  </button>
+                  @endif
               </div>
               <!-- /.card-body -->
             </div>
@@ -191,6 +196,50 @@
                         <label for="email">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{$user_info['email']}}" readonly>
                       </div>
+                      @if($utils::checkPermissions('edit_user_profile'))
+                        <!-- <div class="form-group">
+                          <label>Current System Role: {{$user_info['role_description']}}</label>
+                          <select class="custom-select" style="width: 100%;" id="role_key" name="role_key">
+                            <option selected>Select System Role</option>
+                            @if(!empty($role_list))
+                              @foreach($role_list as $key => $value)
+                                @if($value['role_key'] != $user_info['role_key'])
+                                <option value="{{$value['role_key']}}">{{$value['description']}}</option>
+                                @endif
+                              @endforeach
+                            @endif
+                          </select>
+                        </div> -->
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-9">
+                              <label>Current System Role:</label> <span id="role_name"> {{$user_info['role_description']}}</span>
+                            </div>
+                            <div class="col-md-3 text-right">
+                              <input type="hidden" class="form-control" id="role_key" name="role_key" value="">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                Select Role
+                              </button>
+                              <div class="dropdown-menu">
+                                @if(!empty($role_list))
+                                  @foreach($role_list as $key => $value)
+                                    @if($value['id'] != $user_info['team_id'])
+                                    <a class="dropdown-item" href="#" onclick="selectedRole('{{$value['description']}}','{{$value['role_key']}}')">
+                                    {{$value['description']}}
+                                    </a>
+                                    @endif
+                                  @endforeach
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      @else
+                      <div class="form-group">
+                        <label for="email">System Role</label>
+                        <input type="text" class="form-control" id="email" name="email" value="{{$user_info['role_description']}}" readonly>
+                      </div>
+                      @endif
                       <div class="form-group">
                         <label for="firstname">Firstname</label>
                         <input type="text" class="form-control" id="firstname" name="firstname" value="{{$user_info['firstname']}}">
@@ -208,8 +257,28 @@
                         <input type="text" class="form-control" id="shift" name="shift" value="{{$user_info['shift']}}">
                       </div>
                       <div class="form-group">
-                        <label for="team">Team</label>
-                        <input type="text" class="form-control" id="team" name="team" value="{{$user_info['team']}}">
+                        <div class="row">
+                          <div class="col-md-9">
+                            <label>Current Team:</label> <span id="team_name">{{$user_info['team_name']}}</span>
+                          </div>
+                          <div class="col-md-3 text-right">
+                            <input type="hidden" class="form-control" id="team" name="team" value="">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              Select Team
+                            </button>
+                            <div class="dropdown-menu">
+                              @if(!empty($team_list))
+                                @foreach($team_list as $key => $value)
+                                  @if($value['id'] != $user_info['team_id'])
+                                  <a class="dropdown-item" href="#" onclick="selectedTeams('{{$value['team_name']}}','{{$value['id']}}')">
+                                  {{$value['team_name']}}
+                                  </a>
+                                  @endif
+                                @endforeach
+                              @endif
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="form-group">
                         <label for="accenture_exp">Accenture Exp.</label>
@@ -239,25 +308,30 @@
       <script>
         $(function () {
           $(".table").DataTable();
-          // $("#example1").DataTable();
-          // $('#example2').DataTable({
-          //   "paging": true,
-          //   "lengthChange": false,
-          //   "searching": false,
-          //   "ordering": true,
-          //   "info": true,
-          //   "autoWidth": false,
-          // });
         });
 
         $('#submitBtn').click(function() {
              $('#modal_header').text("Confirmation");
              $('#modal_message').text("Are you sure you want to procced?");
+             $('#confirm_submit').attr("onclick","submit_form('formEditProfile')");
         });
 
-        $('#submit').click(function(){
-          $('#formEditProfile').submit();
-        });
+        function selectedTeams($team_name,$team_id){
+          $('#team').val($team_id);
+          $('#team_name').text($team_name);
+        }
+
+        function selectedRole($role_name,$role_key){
+          $('#role_key').val($role_key);
+          $('#role_name').text($role_name);
+        }
+
+        function clearHiddenInput(){
+          $('#team').val('');
+          $('#role_key').val('');
+        }
+
+        clearHiddenInput();
       </script>
     @endsection
 @endsection

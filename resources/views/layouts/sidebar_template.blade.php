@@ -43,7 +43,7 @@
               @endif
               @if($utils::checkPermissions('view_teams'))
               <li class="nav-item">
-                <a href="pages/layout/fixed-topnav.html" class="nav-link">
+                <a href="{{ url('/systemTeams') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_teams')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Teams</p>
                 </a>
@@ -51,7 +51,7 @@
               @endif
               @if($utils::checkPermissions('view_roles'))
               <li class="nav-item">
-                <a href="pages/layout/fixed-footer.html" class="nav-link">
+                <a href="{{ url('/systemEmployeeRoles') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_roles')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Employee Roles</p>
                 </a>
@@ -59,7 +59,7 @@
               @endif
               @if($utils::checkPermissions('view_tools'))
               <li class="nav-item">
-                <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
+                <a href="{{ url('/systemTools') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_tools')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tools</p>
                 </a>

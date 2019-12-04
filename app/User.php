@@ -39,7 +39,8 @@ class User extends Authenticatable
     ];
 
     public static function UserInfo($user_id){
-        return $user_id;
+        
+        return self::leftJoin('teams', 'teams.id', '=', 'users.team')->join('roles', 'roles.role_key', '=', 'users.role_key')->select('users.*','teams.team_name as team_name','teams.id as team_id','roles.description as role_description')->where('users.id',$user_id)->first();
     }
 
     public static function UpdateInfo($username,array $data){

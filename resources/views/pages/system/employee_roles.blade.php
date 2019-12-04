@@ -21,8 +21,7 @@
                   <th>Email</th>
                   <th>System Role</th>
                   <th>Team</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  
                 </tr>
                 </thead>
                 <tbody>
@@ -36,28 +35,6 @@
                       <td>{{$value['email']}}</td>
                       <td>{{$value['role_description']}}</td>
                       <td>{{$value['team']}}</td>
-                      <td>{{$utils::statusIntToString($value['status'])}}</td>
-                      <td>
-                        <form action="{{ route('updateTeam') }}" method="POST" id="formUpdateStatus">
-                          @csrf
-                          @if($utils::checkPermissions('view_user_profile'))
-                          <a type="button" class="btn btn-xs" href="{{ url('/userProfile/'.$value['id']) }}" target="_blank"><i class="fa fa-eye" title="View/Edit"></i></a>
-                          @endif
-                          @if($value['status'] != 2 && $utils::checkPermissions('disable_user_profile'))
-                            <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('disable_item','{{2}}','{{$value['id']}}')"><i class="fa fa-ban" title="Disable"></i>
-                            </button>
-                          @endif
-                          @if($value['status'] != 1 && $utils::checkPermissions('disable_user_profile'))
-                            <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('active_item','{{1}}','{{$value['id']}}')"><i class="fa fa-check-circle" title="Active"></i>
-                            </button>
-                          @endif
-                          @if($utils::checkPermissions('delete_user_profile'))
-                            <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('trash_item','{{0}}','{{$value['id']}}')"><i class="fa fa-trash" title="Delete"></i></button>
-                            <input type="hidden" id="status" name="status">
-                            <input type="hidden" id="team_status_id" name="team_status_id">
-                          @endif
-                        </form>
-                      </td>
                     </tr>
                   @endforeach
                 @endif
