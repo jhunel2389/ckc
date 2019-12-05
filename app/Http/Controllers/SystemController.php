@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Teams;
 use App\Tools;
-use App\employeeRoles;
+use App\EmployeeRoles;
 
 class SystemController extends Controller
 {
@@ -114,27 +114,6 @@ class SystemController extends Controller
         return redirect()->route('systemTeams');
     }
 
-    public function employeeRoles(){
-
-        if(!Utils::permissionsViews('view_roles')){
-            return redirect(route('home'));
-        };
-
-        $user_list = User::UserList();
-        
-        $data = array(
-            'title'     => 'System Employee Roles',
-            'fav_title' => 'System Employee Roles',
-            'side_bar'  => 'side_system',
-            'sub_bar'   => 'sub_roles',
-            'utils'     => Utils::class,
-            'user_list' => $user_list
-        );
-        
-        //var_dump(Utils::testUtils());die();
-        return view('pages.system.employee_roles')->with($data);
-    }
-
     public function tools(){
 
         if(!Utils::permissionsViews('view_tools')){
@@ -207,5 +186,80 @@ class SystemController extends Controller
 
         Utils::msgAlerts($response);
         return redirect()->route('systemTools');
+    }
+
+    public function employeeRoles(){
+
+        if(!Utils::permissionsViews('view_roles')){
+            return redirect(route('home'));
+        };
+
+        $list = EmployeeRoles::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+        
+        $data = array(
+            'title'     => 'System Employee Roles',
+            'fav_title' => 'System Employee Roles',
+            'side_bar'  => 'side_system',
+            'sub_bar'   => 'sub_roles',
+            'utils'     => Utils::class,
+            'user_list' => $list
+        );
+        
+        //var_dump(Utils::testUtils());die();
+        return view('pages.system.employee_roles')->with($data);
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function er_validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255', 'unique:employee_roles'],
+        ]);
+    }
+
+    public function addEmployeeRoles(Request $request){
+
+        if(!Utils::permissionsViews('add_tools')){
+            return redirect(route('home'));
+        };
+
+        if(empty($request['data_id'])){
+            $validator = $this->er_validator($request->all())->validate();
+
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description']
+            );
+            $response = EmployeeRoles::create($data);
+        } else {
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description']
+            );
+            $response = EmployeeRoles::updateData($request['data_id'],$data);
+        }
+        
+        Utils::msgAlerts($response);
+        return redirect()->route('systemEmployeeRoles');
+    }
+
+    public function updateEmployeeRoles(Request $request)
+    {
+        if(!Utils::permissionsViews('edit_tools')){
+            return redirect(route('home'));
+        };
+
+        $data = array (
+            'status'     => $request['status']
+        );
+        $response = EmployeeRoles::updateData($request['status_id'],$data);
+
+        Utils::msgAlerts($response);
+        return redirect()->route('systemEmployeeRoles');
     }
 }

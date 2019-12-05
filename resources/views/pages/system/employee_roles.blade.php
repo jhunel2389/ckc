@@ -25,24 +25,24 @@
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>Team ID</th>
-                  <th>Team Name</th>
+                  <th>ID</th>
+                  <th>Name</th>
                   <th>Description</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @if(!empty($team_list))
-                  @foreach($team_list as $key => $value)
+                @if(!empty($list))
+                  @foreach($list as $key => $value)
                     <tr>
                       <td>{{$value['id']}}</td>
-                      <td><span id="td_name_{{$value['id']}}">{{$value['team_name']}}</td></span>
+                      <td><span id="td_name_{{$value['id']}}">{{$value['name']}}</td></span>
                       <td><span id="td_desc_{{$value['id']}}">{{$value['description']}}</span></td>
                       <td>{{$utils::statusIntToString($value['status'])}}</td>
                       <td>
                         
-                        <form action="{{ route('updateTeam') }}" method="POST" id="formUpdateStatus">
+                        <form action="{{ route('updateEmployeeRoles') }}" method="POST" id="formUpdateStatus">
                           @csrf
                           @if($utils::checkPermissions('edit_teams'))
                           <button type="button" class="btn btn-xs" onclick="showModal('update_item','{{$value['id']}}')"><i class="fa fa-edit" title="Edit"></i></button>
@@ -58,7 +58,7 @@
                           @if($utils::checkPermissions('delete_teams'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('trash_item','{{0}}','{{$value['id']}}')"><i class="fa fa-trash" title="Delete"></i></button>
                             <input type="hidden" id="status" name="status">
-                            <input type="hidden" id="team_status_id" name="team_status_id">
+                            <input type="hidden" id="status_id" name="status_id">
                           @endif
                         </form>
                       </td>
@@ -85,19 +85,19 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title" id="modal-h4">Add Team</h4>
+                <h4 class="modal-title" id="modal-h4">Add Employee Roles</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('addTeams') }}" method="POST" id="formAddTeams">
+              <form action="{{ route('addEmployeeRoles') }}" method="POST" id="formAddTeams">
                 @csrf
                 <div class="modal-body">
                     <!-- form start -->
                       <div class="card-body">
                         <div class="form-group">
-                          <label for="team_name">Team Name</label>
-                          <input type="text" class="form-control" id="team_name" name="team_name" value="" placeholder="Enter team name" required>
+                          <label for="team_name">Name</label>
+                          <input type="text" class="form-control" id="name" name="name" value="" placeholder="Enter tools name" required>
                         </div>
                         @error('team_name')
                             <span class="invalid-feedback" role="alert">
@@ -105,10 +105,10 @@
                             </span>
                         @enderror
                         <div class="form-group">
-                          <label for="description">Team Description</label>
+                          <label for="description">Description</label>
                           <input type="text" class="form-control" id="description" name="description" placeholder="Enter team description" value="">
                         </div>
-                        <input type="hidden" id="team_id" name="team_id">
+                        <input type="hidden" id="data_id" name="data_id">
                       </div>
                       <!-- /.card-body -->
                     
@@ -142,14 +142,14 @@
             $('#modal_message').text("Are you sure you want to procced?");
             $('#confirm_submit').attr("onclick","submit_form('formUpdateStatus')");
             $('#status').val($statusTo);
-            $('#team_status_id').val($id);
+            $('#status_id').val($id);
         }
 
         function showModal($action,$id){
           if($action == 'update_item'){
             $('#modal-h4').text("Update Team");
-            $('#team_id').val($id);
-            $('#team_name').val($('#td_name_'+$id).text());
+            $('#data_id').val($id);
+            $('#name').val($('#td_name_'+$id).text());
             $('#description').val($('#td_desc_'+$id).text());
           }
 
