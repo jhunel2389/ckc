@@ -15,7 +15,7 @@ class CreateToolsTable extends Migration
     {
         Schema::create('tools', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('team_name')->unique();
+            $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
