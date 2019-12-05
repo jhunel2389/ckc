@@ -4,6 +4,7 @@
   <style type="text/css">
     #toastsContainerTopRight > div {
     width: 350px;
+    z-index: 10000000 !important ;
     }
   </style>
   <meta charset="utf-8">

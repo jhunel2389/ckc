@@ -11,6 +11,7 @@ use App\User;
 use App\Teams;
 use App\Tools;
 use App\EmployeeRoles;
+use App\EmployeeRolesTools;
 
 class SystemController extends Controller
 {
@@ -271,6 +272,37 @@ class SystemController extends Controller
 
 
     public function primaryToolsData(){
-        return Datatables::of(Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]))->make(true);
+        return Datatables::of(EmployeeRolesTools::all())->make(true);
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function ertools_ajax_validator(array $data)
+    {
+        return Validator::make($data, [
+            'er_id' => ['required', 'string', 'max:255'],
+            'tool_id' => ['required', 'string', 'max:255'],
+            'category_id' => ['required', 'string', 'max:255'],
+        ]);
+    }
+
+    public function addERToolsData(Request $request){
+        //var_dump($request->input('er_id'));die();
+        $validator = $this->ertools_ajax_validator($request->all())->validate();
+
+        $data = array (
+            'er_id'          => $request['er_id'],
+            'tool_id'   => $request['tool_id'],
+            'category_id'   => $request['category_id']
+        );
+
+        $response = EmployeeRolesTools::create($data);
+        $response = Utils::msgAlerts($response,"Tools Succesfully Added!",$request->ajax());
+        
+        return $response;
     }
 }

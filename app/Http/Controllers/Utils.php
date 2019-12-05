@@ -46,11 +46,11 @@ class Utils extends Controller
         }
     }
 
-    public static function msgAlerts($data,$message = null){
+    public static function msgAlerts($data,$message = null,$ajax_request = false){
         if($data){
             $message_alert = array(
                 'alert_status'    => "success",
-                'alert_msg'       => "Successful!",
+                'alert_msg'       => (empty($message))?"Successful!":$message,
                 'alert_class'     => "bg-success"
             );
         } else {
@@ -63,5 +63,10 @@ class Utils extends Controller
         Cache::add('alert_status', $message_alert['alert_status'], 2);
         Cache::add('alert_msg', $message_alert['alert_msg'], 2);
         Cache::add('alert_class', $message_alert['alert_class'], 2);
+
+        if($ajax_request)
+        {
+            return response()->json($message_alert);
+        }
     }
 }

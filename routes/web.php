@@ -48,3 +48,4 @@ Route::get('/getPrimaryTools', 'SystemController@getPrimaryTools')->name('getPri
 
 
 Route::get('get-primary-tools-data', 'SystemController@primaryToolsData')->name('datatables.primary-tools');
+Route::post('add-er-tools-data', 'SystemController@addERToolsData')->name('ajax.add-er-tools');

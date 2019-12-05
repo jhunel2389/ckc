@@ -60,7 +60,7 @@
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="status_id" name="status_id">
                           @endif
-                          <button type="button" class="btn btn-xs" onclick="openTools()"><i class="fa fa-tools" title="Tools"></i></button>
+                          <button type="button" class="btn btn-xs" onclick="openTools('{{$value['id']}}')"><i class="fa fa-tools" title="Tools"></i></button>
                         </form>
                       </td>
                     </tr>
@@ -144,8 +144,9 @@
                           <div class="row">
                             <div class="col-md-4">
                               <label>Select Tools:</label>
-                              <span id="tool_name"></span>
+                              <span class="span-modal" id="tool_name"></span>
                               <input type="hidden" id="tool_id" name="tool_id">
+                              <input type="hidden" id="er_id" name="er_id">
                               <br>
                               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-tools" disabled>
                                 Tools
@@ -155,7 +156,7 @@
                             </div>
                             <div class="col-md-4">
                               <label>Select Category:</label>
-                              <span id="cat_name"></span>
+                              <span class="span-modal" id="cat_name"></span>
                               <input type="hidden" id="cat_id" name="cat_id">
                               <br>
                               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -228,6 +229,18 @@
                 ]
             });
         }
+
+        function addToolsER(){
+          $.post("{{route('ajax.add-er-tools')}}", { er_id: $('#er_id').val(), tool_id: $('#tool_id').val(), category_id: $('#cat_id').val(), _token: "{{ csrf_token() }}" }, function(data, status){
+            if(status === 'success'){
+              alerts_float(data.alert_status,data.alert_msg,data.alert_class);
+            }
+          })
+          .fail(function(response) { 
+            alerts_float('Error',"All fields are required!",'bg-danger');
+          });
+        }
+
         $('#submitBtn').click(function() {
              $('#modal_header').text("Confirmation");
              $('#modal_message').text("Are you sure you want to procced?");
@@ -266,13 +279,16 @@
           });
         }
 
-        function openTools(){
+        function openTools(er_id){
+          $(':input').val('');
+          $('.span-modal').html('');
+          $('#er_id').val(er_id);
           $('#modal-tools').modal();
           refreshAjaxCall();
         }
 
-        function selectTools(id,name){
-          $('#tool_id').val(id);
+        function selectTools(tool_id,name){
+          $('#tool_id').val(tool_id);
           $('#tool_name').text(name);
         }
 
@@ -286,7 +302,7 @@
         }
 
         function addTools(){
-          alert('add');
+          addToolsER();
         }
 
         function refreshAjaxCall(){
