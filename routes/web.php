@@ -38,4 +38,7 @@ Route::post('/addTeams', 'SystemController@addTeams')->name('addTeams');
 Route::post('/updateTeam', 'SystemController@updateTeam')->name('updateTeam');
 
 Route::get('/systemEmployeeRoles', 'SystemController@employeeRoles')->name('systemEmployeeRoles');
+
 Route::get('/systemTools', 'SystemController@tools')->name('systemTools');
+Route::post('/addTool', 'SystemController@addTool')->name('addTool');
+Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');

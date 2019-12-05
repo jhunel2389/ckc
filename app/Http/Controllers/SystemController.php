@@ -19,6 +19,11 @@ class SystemController extends Controller
     }
     
     public function users(){
+        
+        if(!Utils::permissionsViews('view_users')){
+            return redirect(route('home'));
+        };
+
         $user_list = User::UserList();
         
     	$data = array(
@@ -49,9 +54,9 @@ class SystemController extends Controller
 
     public function teams(){
 
-        if(!Utils::checkPermissions('view_teams')){
+        if(!Utils::permissionsViews('view_teams')){
             return redirect(route('home'));
-        }
+        };
 
         $team_list = Teams::getTeamList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
         
@@ -69,7 +74,11 @@ class SystemController extends Controller
     }
 
     public function addTeams(Request $request){
-        
+
+        if(!Utils::permissionsViews('add_teams')){
+            return redirect(route('home'));
+        };
+
         if(empty($request['team_id'])){
             $validator = $this->teams_validator($request->all())->validate();
 
@@ -92,6 +101,10 @@ class SystemController extends Controller
 
     public function updateTeam(Request $request)
     {
+        if(!Utils::permissionsViews('edit_teams')){
+            return redirect(route('home'));
+        };
+
         $data = array (
             'status'     => $request['status']
         );
@@ -102,6 +115,11 @@ class SystemController extends Controller
     }
 
     public function employeeRoles(){
+
+        if(!Utils::permissionsViews('view_roles')){
+            return redirect(route('home'));
+        };
+
         $user_list = User::UserList();
         
         $data = array(
@@ -118,7 +136,12 @@ class SystemController extends Controller
     }
 
     public function tools(){
-        $user_list = User::UserList();
+
+        if(!Utils::permissionsViews('view_tools')){
+            return redirect(route('home'));
+        };
+
+        $list = Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
         
         $data = array(
             'title'     => 'System Tools',
@@ -126,10 +149,63 @@ class SystemController extends Controller
             'side_bar'  => 'side_system',
             'sub_bar'   => 'sub_tools',
             'utils'     => Utils::class,
-            'user_list' => $user_list
+            'list' => $list
         );
         
-        //var_dump(Utils::testUtils());die();
         return view('pages.system.tools')->with($data);
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function tools_validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255', 'unique:tools'],
+        ]);
+    }
+
+    public function addTool(Request $request){
+
+        if(!Utils::permissionsViews('add_tools')){
+            return redirect(route('home'));
+        };
+
+        if(empty($request['data_id'])){
+            $validator = $this->tools_validator($request->all())->validate();
+
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description']
+            );
+            $response = Tools::create($data);
+        } else {
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description']
+            );
+            $response = Tools::updateData($request['data_id'],$data);
+        }
+        
+        Utils::msgAlerts($response);
+        return redirect()->route('systemTools');
+    }
+
+    public function updateTool(Request $request)
+    {
+        if(!Utils::permissionsViews('edit_tools')){
+            return redirect(route('home'));
+        };
+
+        $data = array (
+            'status'     => $request['status']
+        );
+        $response = Tools::updateData($request['status_id'],$data);
+
+        Utils::msgAlerts($response);
+        return redirect()->route('systemTools');
     }
 }

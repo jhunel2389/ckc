@@ -12,6 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     const TRUE = true;
+    const FALSE = false;
     const SUPERADMIND = 'admin_user';
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 2;

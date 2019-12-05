@@ -41,9 +41,10 @@ class ProfileController extends Controller
 
     public function userProfile(int $id){
 
-        if(!Utils::checkPermissions('view_user_profile')){
+        if(!Utils::permissionsViews('view_user_profile')){
             return redirect(route('home'));
-        }
+        };
+        
         return $this->profile($id);
     }
 

@@ -15,12 +15,18 @@ class Utils extends Controller
     		return self::TRUE;
     	} else {
     		$isHave = RolesPermission::checkPermissions($permission);
-            if(empty($isHave)){
-                self::msgAlerts($isHave,'No Permission!');
-            }
     	}
     	
         return !empty($isHave);
+    }
+
+    public static function permissionsViews($permission){
+        if(!Utils::checkPermissions($permission)){
+            self::msgAlerts(self::FALSE,'No Permission!');
+            return self::FALSE;
+        }
+
+        return self::TRUE;
     }
 
     public static function statusIntToString($statusInt){
