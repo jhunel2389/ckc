@@ -202,7 +202,7 @@ class SystemController extends Controller
             'side_bar'  => 'side_system',
             'sub_bar'   => 'sub_roles',
             'utils'     => Utils::class,
-            'user_list' => $list
+            'list' => $list
         );
         
         //var_dump(Utils::testUtils());die();

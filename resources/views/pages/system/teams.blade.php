@@ -99,11 +99,6 @@
                           <label for="team_name">Team Name</label>
                           <input type="text" class="form-control" id="team_name" name="team_name" value="" placeholder="Enter team name" required>
                         </div>
-                        @error('team_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                         <div class="form-group">
                           <label for="description">Team Description</label>
                           <input type="text" class="form-control" id="description" name="description" placeholder="Enter team description" value="">

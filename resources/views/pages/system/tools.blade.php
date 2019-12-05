@@ -14,7 +14,7 @@
                   </h3>
                 </div>
                 <div class="col-md-1">
-                  @if($utils::checkPermissions('add_teams'))
+                  @if($utils::checkPermissions('add_tools'))
                   <button type="button" class="btn btn-block btn-success btn-xs" onclick="showModal('add_item','')">Add</button>
                   @endif
                 </div>
@@ -44,18 +44,18 @@
                         
                         <form action="{{ route('updateTool') }}" method="POST" id="formUpdateStatus">
                           @csrf
-                          @if($utils::checkPermissions('edit_teams'))
+                          @if($utils::checkPermissions('edit_tools'))
                           <button type="button" class="btn btn-xs" onclick="showModal('update_item','{{$value['id']}}')"><i class="fa fa-edit" title="Edit"></i></button>
                           @endif
-                          @if($value['status'] != 2 && $utils::checkPermissions('disable_teams'))
+                          @if($value['status'] != 2 && $utils::checkPermissions('disable_tools'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('disable_item','{{2}}','{{$value['id']}}')"><i class="fa fa-ban" title="Disable"></i>
                             </button>
                           @endif
-                          @if($value['status'] != 1 && $utils::checkPermissions('disable_teams'))
+                          @if($value['status'] != 1 && $utils::checkPermissions('disable_tools'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('active_item','{{1}}','{{$value['id']}}')"><i class="fa fa-check-circle" title="Active"></i>
                             </button>
                           @endif
-                          @if($utils::checkPermissions('delete_teams'))
+                          @if($utils::checkPermissions('delete_tools'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('trash_item','{{0}}','{{$value['id']}}')"><i class="fa fa-trash" title="Delete"></i></button>
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="status_id" name="status_id">
@@ -79,7 +79,7 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-    @if($utils::checkPermissions('add_teams') || $utils::checkPermissions('edit_teams'))
+    @if($utils::checkPermissions('add_tools') || $utils::checkPermissions('edit_tools'))
       <!-- ADD MODAL -->
       <div class="modal fade" id="modal-form">
           <div class="modal-dialog modal-lg">
@@ -99,11 +99,6 @@
                           <label for="team_name">Name</label>
                           <input type="text" class="form-control" id="name" name="name" value="" placeholder="Enter tools name" required>
                         </div>
-                        @error('team_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                         <div class="form-group">
                           <label for="description">Description</label>
                           <input type="text" class="form-control" id="description" name="description" placeholder="Enter team description" value="">
