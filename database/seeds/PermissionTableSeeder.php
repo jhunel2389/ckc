@@ -79,6 +79,38 @@ class PermissionTableSeeder extends Seeder
             [
                 "permission_key" => "assign_system_role_user_profile",
                 "description" => "User Profile Assign System Role",
+            ],
+            [
+                "permission_key" => "add_tools",
+                "description" => "System Tools Add",
+            ],
+            [
+                "permission_key" => "edit_tools",
+                "description" => "System Tools Edit",
+            ],
+            [
+                "permission_key" => "disable_tools",
+                "description" => "System Tools Disable",
+            ],
+            [
+                "permission_key" => "delete_tools",
+                "description" => "System Tools Delete",
+            ],
+            [
+                "permission_key" => "add_employee_roles",
+                "description" => "System Employee Roles Add",
+            ],
+            [
+                "permission_key" => "edit_employee_roles",
+                "description" => "System Employee Roles Edit",
+            ],
+            [
+                "permission_key" => "disable_employee_roles",
+                "description" => "System Employee Roles Disable",
+            ],
+            [
+                "permission_key" => "delete_employee_roles",
+                "description" => "System Employee Roles Delete",
             ]
     	];
 
