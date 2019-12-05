@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
+use Yajra\Datatables\Datatables;
 use App\User;
 use App\Teams;
 use App\Tools;
@@ -261,5 +262,15 @@ class SystemController extends Controller
 
         Utils::msgAlerts($response);
         return redirect()->route('systemEmployeeRoles');
+    }
+
+    public function getPrimaryTools(){
+        $list = Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+        return $list;
+    }
+
+
+    public function primaryToolsData(){
+        return Datatables::of(Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]))->make(true);
     }
 }

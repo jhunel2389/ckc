@@ -44,3 +44,7 @@ Route::post('/updateEmployeeRoles', 'SystemController@updateEmployeeRoles')->nam
 Route::get('/systemTools', 'SystemController@tools')->name('systemTools');
 Route::post('/addTool', 'SystemController@addTool')->name('addTool');
 Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');
+Route::get('/getPrimaryTools', 'SystemController@getPrimaryTools')->name('getPrimaryTools');
+
+
+Route::get('get-primary-tools-data', 'SystemController@primaryToolsData')->name('datatables.primary-tools');

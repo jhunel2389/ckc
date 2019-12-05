@@ -60,6 +60,7 @@
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="status_id" name="status_id">
                           @endif
+                          <button type="button" class="btn btn-xs" onclick="openTools()"><i class="fa fa-tools" title="Tools"></i></button>
                         </form>
                       </td>
                     </tr>
@@ -120,12 +121,113 @@
       </div>
       <!-- END MODAL -->
     @endif
+    @if($utils::checkPermissions('edit_employee_roles'))
+      <!-- ADD MODAL -->
+      <div class="modal fade" id="modal-tools">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="overlay d-flex justify-content-center align-items-center">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+              </div>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-h4">Tools Management</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="POST">
+                @csrf
+                <div class="modal-body">
+                    <!-- form start -->
+                      <div class="card-body">
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <label>Select Tools:</label>
+                              <span id="tool_name"></span>
+                              <input type="hidden" id="tool_id" name="tool_id">
+                              <br>
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-tools" disabled>
+                                Tools
+                              </button>
+                              <div class="dropdown-menu" id="drp-tools">
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <label>Select Category:</label>
+                              <span id="cat_name"></span>
+                              <input type="hidden" id="cat_id" name="cat_id">
+                              <br>
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                Category
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" onclick="selectCat(1,'Primary')">Primary</a>
+                                <a class="dropdown-item" href="#" onclick="selectCat(2,'Secondary')">Secondary</a>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <button type="button" class="btn btn-block btn-success btn-sm" onclick="addTools()">Add</button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">
+                              <span>Primary Tools</span>
+                            </h3>
+                          </div>
+                          <div class="card-body">
+                          <table id="tool-primary-table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Action</th>
+                            </tr>
+                            </thead>
+                          </table>
+                        </div>
+                        </div>
+                      </div>
+                        <div class="form-group">
+                          
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    
+                </div>
+                <div class="modal-footer justify-content-between">
+                </div>
+              </form>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+      </div>
+      <!-- END MODAL -->
+    @endif
     @section('custom_script')
       <script>
         $(function () {
-          $(".table").DataTable();
+          $("#example2").DataTable();
         });
 
+        function loadPrimaryToolsTable() {
+          $("#tool-primary-table").DataTable().destroy();
+          $("#tool-primary-table").DataTable(
+            {
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('datatables.primary-tools') !!}',
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'id', render: function (dataField) {
+                     return '<button type="button" class="btn btn-xs" onclick="removeTools('+dataField+')"><i class="fa fa-tools" title="Tools"></i></button>'; }
+                    }
+                ]
+            });
+        }
         $('#submitBtn').click(function() {
              $('#modal_header').text("Confirmation");
              $('#modal_message').text("Are you sure you want to procced?");
@@ -149,6 +251,51 @@
           }
 
           $('#modal-form').modal()
+        }
+
+        function getToolsPrimary(){
+          $.get("{{route('getPrimaryTools')}}", function(data, status){
+            if(status === 'success'){
+              $('#drp-tools').empty();
+              $.each(data, function(i, item) {
+                $('#drp-tools').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].name, 'onclick' : 'selectTools("'+data[i].id+'","'+data[i].name+'")'}));
+              }); 
+              
+              $('#btn-tools').removeAttr('disabled');
+            }
+          });
+        }
+
+        function openTools(){
+          $('#modal-tools').modal();
+          refreshAjaxCall();
+        }
+
+        function selectTools(id,name){
+          $('#tool_id').val(id);
+          $('#tool_name').text(name);
+        }
+
+        function selectCat(id,name){
+          $('#cat_id').val(id);
+          $('#cat_name').text(name);
+        }
+
+        function removeTools(id){
+          alert(id);
+        }
+
+        function addTools(){
+          alert('add');
+        }
+
+        function refreshAjaxCall(){
+          $('.overlay').attr('style','height: 100%');
+          $('.overlay, .fa-spin').show();
+          loadPrimaryToolsTable();
+          getToolsPrimary();
+          $('.overlay').attr('style','height: 0%');
+          $('.overlay, .fa-spin').hide();
         }
       </script>
     @endsection
