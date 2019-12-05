@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Teams;
+use App\Tools;
+use App\employeeRoles;
 
 class SystemController extends Controller
 {
@@ -46,6 +48,11 @@ class SystemController extends Controller
     }
 
     public function teams(){
+
+        if(!Utils::checkPermissions('view_teams')){
+            return redirect(route('home'));
+        }
+
         $team_list = Teams::getTeamList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
         
         $data = array(
@@ -79,22 +86,7 @@ class SystemController extends Controller
             $response = Teams::updateTeams($request['team_id'],$data);
         }
         
-        if($response){
-            $message_alert = array(
-                'alert_status'    => "success",
-                'alert_msg'       => "Successful!",
-                'alert_class'     => "bg-success"
-            );
-        } else {
-            $message_alert = array(
-                'alert_status'    => "error",
-                'alert_msg'       => "Error occur, please try again!",
-                'alert_class'     => "bg-danger"
-            );
-        }
-        Cache::add('alert_status', $message_alert['alert_status'], 2);
-        Cache::add('alert_msg', $message_alert['alert_msg'], 2);
-        Cache::add('alert_class', $message_alert['alert_class'], 2);
+        Utils::msgAlerts($response);
         return redirect()->route('systemTeams');
     }
 
@@ -105,22 +97,7 @@ class SystemController extends Controller
         );
         $response = Teams::updateTeams($request['team_status_id'],$data);
 
-        if($response){
-            $message_alert = array(
-                'alert_status'    => "success",
-                'alert_msg'       => "Successful!",
-                'alert_class'     => "bg-success"
-            );
-        } else {
-            $message_alert = array(
-                'alert_status'    => "error",
-                'alert_msg'       => "Error occur, please try again!",
-                'alert_class'     => "bg-danger"
-            );
-        }
-        Cache::add('alert_status', $message_alert['alert_status'], 2);
-        Cache::add('alert_msg', $message_alert['alert_msg'], 2);
-        Cache::add('alert_class', $message_alert['alert_class'], 2);
+        Utils::msgAlerts($response);
         return redirect()->route('systemTeams');
     }
 

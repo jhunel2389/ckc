@@ -40,19 +40,11 @@ class ProfileController extends Controller
     }
 
     public function userProfile(int $id){
-        return $this->profile($id);
-        // $user_info = User::UserInfo($id);
-        // $team_list = Teams::getTeamList([self::STATUS_ACTIVE]);
-        // $data = array(
-        //     'title'     => 'Profile',
-        //     'fav_title' => 'CKC | Profile',
-        //     'side_bar'  => 'side_profile',
-        //     'user_info' => $user_info,
-        //     'utils'     => Utils::class,
-        //     'team_list' => $team_list
-        // );
 
-        // return view('pages.user.profile')->with($data);
+        if(!Utils::checkPermissions('view_user_profile')){
+            return redirect(route('home'));
+        }
+        return $this->profile($id);
     }
 
     /**
