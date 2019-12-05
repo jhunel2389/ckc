@@ -125,10 +125,7 @@
       <!-- ADD MODAL -->
       <div class="modal fade" id="modal-tools">
           <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="overlay d-flex justify-content-center align-items-center">
-                <i class="fas fa-2x fa-sync fa-spin"></i>
-              </div>
+            <div class="modal-content" id="modal-content-tools">
               <div class="modal-header">
                 <h4 class="modal-title" id="modal-h4">Tools Management</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -220,11 +217,17 @@
             {
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('datatables.primary-tools') !!}',
+                ajax: {
+                  url: '{!! route('datatables.primary-tools') !!}',
+                  type: 'GET',
+                  data: function (d) {
+                    d.er_id = $('#er_id').val();;
+                  }
+                },
                 columns: [
                     { data: 'name', name: 'name' },
                     { data: 'id', render: function (dataField) {
-                     return '<button type="button" class="btn btn-xs" onclick="removeTools('+dataField+')"><i class="fa fa-tools" title="Tools"></i></button>'; }
+                     return '<button type="button" class="btn btn-xs" onclick="removeTools('+dataField+')"><i class="fa fa-trash" title="Tools"></i></button>'; }
                     }
                 ]
             });
@@ -234,6 +237,7 @@
           $.post("{{route('ajax.add-er-tools')}}", { er_id: $('#er_id').val(), tool_id: $('#tool_id').val(), category_id: $('#cat_id').val(), _token: "{{ csrf_token() }}" }, function(data, status){
             if(status === 'success'){
               alerts_float(data.alert_status,data.alert_msg,data.alert_class);
+              refreshAjaxCall();
             }
           })
           .fail(function(response) { 
@@ -267,7 +271,7 @@
         }
 
         function getToolsPrimary(){
-          $.get("{{route('getPrimaryTools')}}", function(data, status){
+          $.get("{{route('getPrimaryTools')}}",{er_id: $('#er_id').val()}, function(data, status){
             if(status === 'success'){
               $('#drp-tools').empty();
               $.each(data, function(i, item) {
@@ -280,8 +284,11 @@
         }
 
         function openTools(er_id){
-          $(':input').val('');
-          $('.span-modal').html('');
+          $('#tool_id').val('');
+          $('#tool_name').html('');
+          $('#cat_id').val('');
+          $('#cat_name').text('name');
+          $('#er_id').html('');
           $('#er_id').val(er_id);
           $('#modal-tools').modal();
           refreshAjaxCall();
@@ -306,13 +313,18 @@
         }
 
         function refreshAjaxCall(){
-          $('.overlay').attr('style','height: 100%');
-          $('.overlay, .fa-spin').show();
-          loadPrimaryToolsTable();
+          $('#modal-content-tools').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
+          $('#tool_id').val('');
+          $('#tool_name').html('');
+          $('#cat_id').val('');
+          $('#cat_name').text('name');
           getToolsPrimary();
-          $('.overlay').attr('style','height: 0%');
-          $('.overlay, .fa-spin').hide();
+          loadPrimaryToolsTable();
+          
         }
+        $(document).ajaxStop(function() {
+          $('.overlay').remove();
+        });
       </script>
     @endsection
 @endsection

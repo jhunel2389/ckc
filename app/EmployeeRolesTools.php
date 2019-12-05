@@ -28,8 +28,8 @@ class EmployeeRolesTools extends Model
         return self::where('id', $id)->update($data);
     }
 
-    public static function getList($er_id)
+    public static function getListByER($data)
     {
-        return self::where('er_id', $er_id)->get();
+        return self::leftJoin('tools', 'tools.id', '=', 'employee_roles_tools.tool_id')->select('employee_roles_tools.id as id','tools.name as name')->where('employee_roles_tools.er_id', $data['er_id'])->where('employee_roles_tools.category_id', $data['category_id'])->get();
     }
 }

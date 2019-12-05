@@ -271,8 +271,12 @@ class SystemController extends Controller
     }
 
 
-    public function primaryToolsData(){
-        return Datatables::of(EmployeeRolesTools::all())->make(true);
+    public function primaryToolsData(Request $request){
+        $data = array (
+            'er_id'          => $request['er_id'],
+            'category_id'    => 1
+        );
+        return Datatables::of(EmployeeRolesTools::getListByER($data))->make(true);
     }
 
     /**
@@ -291,7 +295,6 @@ class SystemController extends Controller
     }
 
     public function addERToolsData(Request $request){
-        //var_dump($request->input('er_id'));die();
         $validator = $this->ertools_ajax_validator($request->all())->validate();
 
         $data = array (
