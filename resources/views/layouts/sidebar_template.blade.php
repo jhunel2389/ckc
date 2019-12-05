@@ -51,7 +51,7 @@
               @endif
               @if($utils::checkPermissions('view_roles'))
               <li class="nav-item">
-                <a href="{{ url('/systemEmployeeRoles') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_roles')) ? 'active' : ''  }}">
+                <a href="{{ url('/systemEmployeeRoles') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_emp_roles')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Employee Roles</p>
                 </a>
