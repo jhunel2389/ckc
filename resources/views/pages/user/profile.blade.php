@@ -196,7 +196,20 @@
                         <label for="email">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{$user_info['email']}}" readonly>
                       </div>
-                      @if($utils::checkPermissions('assign_system_role_user_profile'))
+                      @if($utils::checkPermissions('edit_user_profile'))
+                        <!-- <div class="form-group">
+                          <label>Current System Role: {{$user_info['role_description']}}</label>
+                          <select class="custom-select" style="width: 100%;" id="role_key" name="role_key">
+                            <option selected>Select System Role</option>
+                            @if(!empty($role_list))
+                              @foreach($role_list as $key => $value)
+                                @if($value['role_key'] != $user_info['role_key'])
+                                <option value="{{$value['role_key']}}">{{$value['description']}}</option>
+                                @endif
+                              @endforeach
+                            @endif
+                          </select>
+                        </div> -->
                         <div class="form-group">
                           <div class="row">
                             <div class="col-md-9">
