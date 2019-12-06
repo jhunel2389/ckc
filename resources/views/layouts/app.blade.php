@@ -17,7 +17,7 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('/../resources/plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{asset('../resources/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
@@ -127,6 +127,7 @@
 <script src="{{asset('../resources/plugins/select2/js/select2.full.min.js')}}"></script>
 
 <!-- daterangepicker -->
+<script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('../resources/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('../resources/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
