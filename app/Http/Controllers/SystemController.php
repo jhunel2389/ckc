@@ -316,4 +316,12 @@ class SystemController extends Controller
         
         return $response;
     }
+
+    public function deleteERToolsData(Request $request){
+
+        $response = EmployeeRolesTools::destroy($request['ert_id']);
+        $response = Utils::msgAlerts($response,"Tools Succesfully Remove!",$request->ajax());
+        
+        return $response;
+    }
 }

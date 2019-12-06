@@ -341,7 +341,15 @@
         }
 
         function removeTools(id){
-          alert(id);
+          $.post("{{route('ajax.delete-er-tools')}}", { ert_id: id, _token: "{{ csrf_token() }}" }, function(data, status){
+            if(status === 'success'){
+              alerts_float(data.alert_status,data.alert_msg,data.alert_class);
+              refreshAjaxCall();
+            }
+          })
+          .fail(function(response) { 
+            alerts_float('Error',"Error Occur. Please try again!",'bg-danger');
+          });
         }
 
         function addTools(){

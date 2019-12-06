@@ -50,3 +50,4 @@ Route::get('/getTools', 'SystemController@getTools')->name('getTools');
 Route::get('get-primary-tools-data', 'SystemController@primaryToolsData')->name('datatables.primary-tools');
 Route::get('get-secondary-tools-data', 'SystemController@secondaryToolsData')->name('datatables.secondary-tools');
 Route::post('add-er-tools-data', 'SystemController@addERToolsData')->name('ajax.add-er-tools');
+Route::post('delete-er-tools-data', 'SystemController@deleteERToolsData')->name('ajax.delete-er-tools');
