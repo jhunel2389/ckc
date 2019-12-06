@@ -127,7 +127,6 @@
 <script src="{{asset('../resources/plugins/select2/js/select2.full.min.js')}}"></script>
 
 <!-- daterangepicker -->
-<script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('../resources/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('../resources/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
