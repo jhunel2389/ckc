@@ -44,8 +44,9 @@ Route::post('/updateEmployeeRoles', 'SystemController@updateEmployeeRoles')->nam
 Route::get('/systemTools', 'SystemController@tools')->name('systemTools');
 Route::post('/addTool', 'SystemController@addTool')->name('addTool');
 Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');
-Route::get('/getPrimaryTools', 'SystemController@getPrimaryTools')->name('getPrimaryTools');
+Route::get('/getTools', 'SystemController@getTools')->name('getTools');
 
 
 Route::get('get-primary-tools-data', 'SystemController@primaryToolsData')->name('datatables.primary-tools');
+Route::get('get-secondary-tools-data', 'SystemController@secondaryToolsData')->name('datatables.secondary-tools');
 Route::post('add-er-tools-data', 'SystemController@addERToolsData')->name('ajax.add-er-tools');

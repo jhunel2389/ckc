@@ -132,51 +132,49 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form method="POST">
-                @csrf
                 <div class="modal-body">
                     <!-- form start -->
-                      <div class="card-body">
-                        <div class="form-group">
-                          <div class="row">
-                            <div class="col-md-4">
-                              <label>Select Tools:</label>
-                              <span class="span-modal" id="tool_name"></span>
-                              <input type="hidden" id="tool_id" name="tool_id">
-                              <input type="hidden" id="er_id" name="er_id">
-                              <br>
-                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-tools" disabled>
-                                Tools
-                              </button>
-                              <div class="dropdown-menu" id="drp-tools">
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <label>Select Category:</label>
-                              <span class="span-modal" id="cat_name"></span>
-                              <input type="hidden" id="cat_id" name="cat_id">
-                              <br>
-                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                Category
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" onclick="selectCat(1,'Primary')">Primary</a>
-                                <a class="dropdown-item" href="#" onclick="selectCat(2,'Secondary')">Secondary</a>
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <button type="button" class="btn btn-block btn-success btn-sm" onclick="addTools()">Add</button>
-                            </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>Select Tools:</label>
+                          <span class="span-modal" id="tool_name"></span>
+                          <input type="hidden" id="tool_id" name="tool_id">
+                          <input type="hidden" id="er_id" name="er_id">
+                          <br>
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-tools" disabled>
+                            Tools
+                          </button>
+                          <div class="dropdown-menu" id="drp-tools">
                           </div>
                         </div>
-                        <div class="form-group">
-                          <div class="card">
-                          <div class="card-header">
-                            <h3 class="card-title">
-                              <span>Primary Tools</span>
-                            </h3>
+                        <div class="col-md-4">
+                          <label>Select Category:</label>
+                          <span class="span-modal" id="cat_name"></span>
+                          <input type="hidden" id="cat_id" name="cat_id">
+                          <br>
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Category
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" onclick="selectCat(1,'Primary')">Primary</a>
+                            <a class="dropdown-item" href="#" onclick="selectCat(2,'Secondary')">Secondary</a>
                           </div>
-                          <div class="card-body">
+                        </div>
+                        <div class="col-md-4">
+                          <button type="button" class="btn btn-block btn-success btn-sm" onclick="addTools()">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <span>Primary Tools</span>
+                          </h3>
+                        </div>
+                        <div class="card-body">
                           <table id="tool-primary-table" class="table table-bordered">
                             <thead>
                             <tr>
@@ -186,15 +184,29 @@
                             </thead>
                           </table>
                         </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <span>Secondary Tools</span>
+                          </h3>
+                        </div>
+                        <div class="card-body">
+                          <table id="tool-secondary-table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Action</th>
+                            </tr>
+                            </thead>
+                          </table>
                         </div>
                       </div>
-                        <div class="form-group">
-                          
-                        </div>
-                      </div>
+                    </div>
+                  </div>
                       <!-- /.card-body -->
-                    
-                </div>
                 <div class="modal-footer justify-content-between">
                 </div>
               </form>
@@ -219,6 +231,28 @@
                 serverSide: true,
                 ajax: {
                   url: '{!! route('datatables.primary-tools') !!}',
+                  type: 'GET',
+                  data: function (d) {
+                    d.er_id = $('#er_id').val();;
+                  }
+                },
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'id', render: function (dataField) {
+                     return '<button type="button" class="btn btn-xs" onclick="removeTools('+dataField+')"><i class="fa fa-trash" title="Tools"></i></button>'; }
+                    }
+                ]
+            });
+        }
+
+        function loadSecondaryToolsTable() {
+          $("#tool-secondary-table").DataTable().destroy();
+          $("#tool-secondary-table").DataTable(
+            {
+                processing: true,
+                serverSide: true,
+                ajax: {
+                  url: '{!! route('datatables.secondary-tools') !!}',
                   type: 'GET',
                   data: function (d) {
                     d.er_id = $('#er_id').val();;
@@ -270,15 +304,17 @@
           $('#modal-form').modal()
         }
 
-        function getToolsPrimary(){
-          $.get("{{route('getPrimaryTools')}}",{er_id: $('#er_id').val()}, function(data, status){
+        function getTools(){
+          $.get("{{route('getTools')}}",{er_id: $('#er_id').val()}, function(data, status){
             if(status === 'success'){
               $('#drp-tools').empty();
-              $.each(data, function(i, item) {
-                $('#drp-tools').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].name, 'onclick' : 'selectTools("'+data[i].id+'","'+data[i].name+'")'}));
-              }); 
+              if(data.length > 0){
+                $.each(data, function(i, item) {
+                  $('#drp-tools').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].name, 'onclick' : 'selectTools("'+data[i].id+'","'+data[i].name+'")'}));
+                }); 
+                $('#btn-tools').removeAttr('disabled');
+              }
               
-              $('#btn-tools').removeAttr('disabled');
             }
           });
         }
@@ -287,7 +323,7 @@
           $('#tool_id').val('');
           $('#tool_name').html('');
           $('#cat_id').val('');
-          $('#cat_name').text('name');
+          $('#cat_name').text('');
           $('#er_id').html('');
           $('#er_id').val(er_id);
           $('#modal-tools').modal();
@@ -317,10 +353,10 @@
           $('#tool_id').val('');
           $('#tool_name').html('');
           $('#cat_id').val('');
-          $('#cat_name').text('name');
-          getToolsPrimary();
+          $('#cat_name').text('');
+          getTools();
           loadPrimaryToolsTable();
-          
+          loadSecondaryToolsTable();
         }
         $(document).ajaxStop(function() {
           $('.overlay').remove();

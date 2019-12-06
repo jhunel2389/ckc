@@ -265,8 +265,8 @@ class SystemController extends Controller
         return redirect()->route('systemEmployeeRoles');
     }
 
-    public function getPrimaryTools(){
-        $list = Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+    public function getTools(Request $request){
+        $list = Tools::getAvailableToolsPerER([self::STATUS_ACTIVE],$request['er_id']);
         return $list;
     }
 
@@ -275,6 +275,14 @@ class SystemController extends Controller
         $data = array (
             'er_id'          => $request['er_id'],
             'category_id'    => 1
+        );
+        return Datatables::of(EmployeeRolesTools::getListByER($data))->make(true);
+    }
+
+    public function secondaryToolsData(Request $request){
+        $data = array (
+            'er_id'          => $request['er_id'],
+            'category_id'    => 2
         );
         return Datatables::of(EmployeeRolesTools::getListByER($data))->make(true);
     }

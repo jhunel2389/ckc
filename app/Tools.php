@@ -32,4 +32,11 @@ class Tools extends Model
     {
         return self::whereIn('status', $status)->get();
     }
+
+    public static function getAvailableToolsPerER(array $status,$er_id = null)
+    {
+        return self::whereIn('tools.status', $status)->select('tools.*')->leftJoin('employee_roles_tools','employee_roles_tools.tool_id','=','tools.id')
+        ->whereNull('employee_roles_tools.er_id')
+        ->orWhere('employee_roles_tools.er_id','<>',$er_id)->get();
+    }
 }
