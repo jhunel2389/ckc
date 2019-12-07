@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\TeamEmployeeRoles;
 
 class EmployeeRoles extends Model
 {
@@ -35,8 +36,13 @@ class EmployeeRoles extends Model
 
     public static function getAvailableERPerTeam(array $status,$team_id = null)
     {
-        return self::whereIn('employee_roles.status', $status)->select('employee_roles.*')->leftJoin('teams_employee_roles','teams_employee_roles.er_id','=','employee_roles.id')
-        ->whereNull('teams_employee_roles.team_id')
-        ->orWhere('teams_employee_roles.team_id','<>',$team_id)->get();
+        $er_by_team = TeamEmployeeRoles::where('team_id', '=', $team_id)->pluck('er_id')->toArray();
+        return self::whereIn('status', $status)->whereNotIn('id',$er_by_team)->get();
+    }
+
+    public static function getEmployeeRoleByTeam(array $status,$team_id = null)
+    {
+
+        return self::whereIn('employee_roles.status', $status)->select('employee_roles.*')->leftJoin('teams_employee_roles','teams_employee_roles.er_id','=','employee_roles.id')->where('teams_employee_roles.team_id',$team_id)->get();
     }
 }

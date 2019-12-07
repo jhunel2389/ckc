@@ -46,6 +46,7 @@ Route::post('/addTool', 'SystemController@addTool')->name('addTool');
 Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');
 Route::get('/getTools', 'SystemController@getTools')->name('getTools');
 Route::get('/getTeams', 'SystemController@getTeams')->name('getTeams');
+Route::get('/getEmployeeRoleByTeam', 'SystemController@getEmployeeRoleByTeam')->name('getEmployeeRoleByTeam');
 
 
 Route::get('get-primary-tools-data', 'SystemController@primaryToolsData')->name('datatables.primary-tools');

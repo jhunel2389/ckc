@@ -373,4 +373,9 @@ class SystemController extends Controller
         
         return $response;
     }
+
+    public function getEmployeeRoleByTeam(Request $request){
+        $list = EmployeeRoles::getEmployeeRoleByTeam([self::STATUS_ACTIVE],$request['team_id']);
+        return $list;
+    }
 }

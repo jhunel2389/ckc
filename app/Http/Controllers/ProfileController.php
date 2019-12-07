@@ -99,17 +99,19 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         $data = array (
-            'firstname'     => $request['firstname'],
-            'lastname'      => $request['lastname'],
-            'site_location' => $request['site_location'],
-            'shift'         => $request['shift'],
-            'team'          => $request['team'],
-            'accenture_exp' => $request['accenture_exp'],
-            'working_exp'   => $request['working_exp'],
-            'role_key'   => $request['role_key'],
+            'firstname'             => $request['firstname'],
+            'lastname'              => $request['lastname'],
+            'site_location'         => $request['site_location'],
+            'shift'                 => $request['shift'],
+            'team'                  => $request['team'],
+            'accenture_exp'         => $request['accenture_exp'],
+            'working_exp'           => $request['working_exp'],
+            'role_key'              => $request['role_key'],
+            'employee_role_key'     => $request['er_key'],
         );
-        if(empty($request['team'])){
+        if(empty($request['team']) || empty($request['er_key'])){
             unset($data['team']);
+            unset($data['employee_role_key']);
         }
         
         if(empty($request['role_key'])){

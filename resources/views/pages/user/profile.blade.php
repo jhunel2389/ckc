@@ -18,7 +18,7 @@
 
                 <h3 class="profile-username text-center">{{$user_info['firstname']}} {{$user_info['lastname']}}</h3>
 
-                <p class="text-muted text-center">Software Engineer</p>
+                <p class="text-muted text-center">{{(($user_info['er_name'])?$user_info['er_name']:"No Data")}}</p>
 	                <ul class="list-group list-group-unbordered mb-3">
 	                  <li class="list-group-item">
 	                    <b>Username:</b> <a class="float-right">{{$user_info['username']}}</a>
@@ -36,17 +36,17 @@
 	                    <b>Shift:</b> <a class="float-right">{{$user_info['shift']}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Team:</b> <a class="float-right">{{$user_info['team_name']}}</a>
+	                    <b>Team:</b> <a class="float-right">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Accenture Exp.:</b> <a class="float-right">{{$user_info['accenture_exp']}}</a>
+	                    <b>Accenture Exp.:</b> <a class="float-right">{{($user_info['accenture_exp'])?$user_info['accenture_exp']:"No Data"}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Working Exp.:</b> <a class="float-right">{{$user_info['working_exp']}}</a>
+	                    <b>Working Exp.:</b> <a class="float-right">{{($user_info['working_exp'])?$user_info['working_exp']:"No Data"}}</a>
 	                  </li>
 	                </ul>
                   @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
-                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
+                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg" onclick="openEditModal();">
                   Edit
                   </button>
                   @endif
@@ -230,7 +230,7 @@
                       <div class="form-group">
                         <div class="row">
                           <div class="col-md-9">
-                            <label>Current Team:</label> <span id="team_name">{{$user_info['team_name']}}</span>
+                            <label>Current Team:</label> <span id="team_name">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</span>
                           </div>
                           <div class="col-md-3 text-right">
                             <input type="hidden" class="form-control" id="team" name="team" value="">
@@ -254,14 +254,14 @@
                       <div class="form-group">
                         <div class="row">
                           <div class="col-md-9">
-                            <label>Current Employee Role:</label> <span id="team_name">{{($user_info['employee_role_key']) ?$user_info['employee_role_key'] : "No Data" }}</span>
+                            <label>Current Employee Role:</label> <span id="er_name">{{(($user_info['er_name'])?$user_info['er_name']:"No Data")}}</span>
                           </div>
                           <div class="col-md-3 text-right">
-                            <input type="hidden" class="form-control" id="employee_role_key" name="employee_role_key" value="">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <input type="hidden" class="form-control" id="er_key" name="er_key" value="">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-er" disabled>
                               Select Employee Role
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="drp-er">
                             </div>
                           </div>
                         </div>
@@ -321,10 +321,22 @@
         function selectedTeams($team_name,$team_id){
           $('#team').val($team_id);
           $('#team_name').text($team_name);
+          $('#er_id').val('');
+          getEmployeeRole($team_id);
         }
 
-        function getEmployeeRole(){
-
+        function getEmployeeRole($team_id){
+          $.get("{{route('getEmployeeRoleByTeam')}}",{team_id: $('#team').val()}, function(data, status){
+            if(status === 'success'){
+              $('#drp-er').empty();
+              if(data.length > 0){
+                $.each(data, function(i, item) {
+                  $('#drp-er').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].name, 'onclick' : 'selectER("'+data[i].id+'","'+data[i].name+'")'}));
+                }); 
+                $('#btn-er').removeAttr('disabled');
+              }
+            }
+          });
         }
 
         function selectedRole($role_name,$role_key){
@@ -332,9 +344,19 @@
           $('#role_name').text($role_name);
         }
 
+        function selectER($er_id,$er_name){
+          $('#er_key').val($er_id);
+          $('#er_name').text($er_name);
+        }
+
         function clearHiddenInput(){
           $('#team').val('');
           $('#role_key').val('');
+          $('#er_key').val('');
+        }
+
+        function openEditModal(){
+          $('#btn-er').attr('disabled','');
         }
 
         clearHiddenInput();

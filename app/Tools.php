@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\EmployeeRolesTools;
 
 class Tools extends Model
 {
@@ -34,9 +35,8 @@ class Tools extends Model
     }
 
     public static function getAvailableToolsPerER(array $status,$er_id = null)
-    {
-        return self::whereIn('tools.status', $status)->select('tools.*')->leftJoin('employee_roles_tools','employee_roles_tools.tool_id','=','tools.id')
-        ->whereNull('employee_roles_tools.er_id')
-        ->orWhere('employee_roles_tools.er_id','<>',$er_id)->get();
+    {   
+        $tool_by_er_id = EmployeeRolesTools::where('er_id', '=', $er_id)->pluck('tool_id')->toArray();
+        return self::whereIn('status', $status)->whereNotIn('id',$tool_by_er_id)->get();
     }
 }
