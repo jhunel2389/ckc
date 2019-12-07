@@ -229,10 +229,10 @@
                       @endif
                       <div class="form-group">
                         <div class="row">
-                          <div class="col-md-9">
+                          <div class="col-md-6">
                             <label>Current Team:</label> <span id="team_name" style="color: {{($user_info['team_name'])?'':'red'}};">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</span>
                           </div>
-                          <div class="col-md-3 text-right">
+                          <div class="col-md-6 text-right">
                             <input type="hidden" class="form-control" id="team" name="team" value="">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='btn-team'>
                               Select Team
@@ -253,10 +253,10 @@
                       </div>
                       <div class="form-group">
                         <div class="row">
-                          <div class="col-md-9">
+                          <div class="col-md-6">
                             <label>Current Employee Role:</label> <span id="er_name" style="color: {{($user_info['er_name'])?'':'red'}};">{{(($user_info['er_name'])?$user_info['er_name']:"No Data")}}</span>
                           </div>
-                          <div class="col-md-3 text-right">
+                          <div class="col-md-6 text-right">
                             <input type="hidden" class="form-control" id="er_key" name="er_key" value="">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-er" disabled>
                               Select Employee Role
