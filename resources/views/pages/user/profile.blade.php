@@ -228,22 +228,6 @@
                       </div>
                       @endif
                       <div class="form-group">
-                        <label for="firstname">Firstname</label>
-                        <input type="text" class="form-control" id="firstname" name="firstname" value="{{$user_info['firstname']}}">
-                      </div>
-                      <div class="form-group">
-                        <label for="lastname">Lastname</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" value="{{$user_info['lastname']}}">
-                      </div>
-                      <div class="form-group">
-                        <label for="site_location">Site Location</label>
-                        <input type="text" class="form-control" id="site_location" name="site_location" value="{{$user_info['site_location']}}">
-                      </div>
-                      <div class="form-group">
-                        <label for="shift">Shift</label>
-                        <input type="text" class="form-control" id="shift" name="shift" value="{{$user_info['shift']}}">
-                      </div>
-                      <div class="form-group">
                         <div class="row">
                           <div class="col-md-9">
                             <label>Current Team:</label> <span id="team_name">{{$user_info['team_name']}}</span>
@@ -266,6 +250,37 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-9">
+                            <label>Current Employee Role:</label> <span id="team_name">{{($user_info['employee_role_key']) ?$user_info['employee_role_key'] : "No Data" }}</span>
+                          </div>
+                          <div class="col-md-3 text-right">
+                            <input type="hidden" class="form-control" id="employee_role_key" name="employee_role_key" value="">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              Select Employee Role
+                            </button>
+                            <div class="dropdown-menu">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="firstname">Firstname</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname" value="{{$user_info['firstname']}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="lastname">Lastname</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" value="{{$user_info['lastname']}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="site_location">Site Location</label>
+                        <input type="text" class="form-control" id="site_location" name="site_location" value="{{$user_info['site_location']}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="shift">Shift</label>
+                        <input type="text" class="form-control" id="shift" name="shift" value="{{$user_info['shift']}}">
                       </div>
                       <div class="form-group">
                         <label for="accenture_exp">Accenture Exp.</label>
@@ -306,6 +321,10 @@
         function selectedTeams($team_name,$team_id){
           $('#team').val($team_id);
           $('#team_name').text($team_name);
+        }
+
+        function getEmployeeRole(){
+
         }
 
         function selectedRole($role_name,$role_key){
