@@ -30,19 +30,19 @@
                       <b>System Role:</b> <a class="float-right">{{$user_info['role_description']}}</a>
                     </li>
 	                  <li class="list-group-item">
-	                    <b>Site Location:</b> <a class="float-right">{{$user_info['site_location']}}</a>
+	                    <b>Site Location:</b> <a class="float-right" style="color: {{($user_info['site_location'])?'':'red'}};">{{($user_info['site_location'])?$user_info['site_location']:"No Data"}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Shift:</b> <a class="float-right">{{$user_info['shift']}}</a>
+	                    <b>Shift:</b> <a class="float-right" style="color: {{($user_info['shift'])?'':'red'}};">{{($user_info['shift'])?$user_info['shift']:"No Data"}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Team:</b> <a class="float-right">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</a>
+	                    <b>Team:</b> <a class="float-right" style="color: {{($user_info['team_name'])?'':'red'}};">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Accenture Exp.:</b> <a class="float-right">{{($user_info['accenture_exp'])?$user_info['accenture_exp']:"No Data"}}</a>
+	                    <b>Accenture Exp.:</b> <a class="float-right" style="color: {{($user_info['accenture_exp'])?'':'red'}};">{{($user_info['accenture_exp'])?$user_info['accenture_exp']:"No Data"}}</a>
 	                  </li>
 	                  <li class="list-group-item">
-	                    <b>Working Exp.:</b> <a class="float-right">{{($user_info['working_exp'])?$user_info['working_exp']:"No Data"}}</a>
+	                    <b>Working Exp.:</b> <a class="float-right" style="color: {{($user_info['working_exp'])?'':'red'}};">{{($user_info['working_exp'])?$user_info['working_exp']:"No Data"}}</a>
 	                  </li>
 	                </ul>
                   @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
@@ -230,14 +230,14 @@
                       <div class="form-group">
                         <div class="row">
                           <div class="col-md-9">
-                            <label>Current Team:</label> <span id="team_name">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</span>
+                            <label>Current Team:</label> <span id="team_name" style="color: {{($user_info['team_name'])?'':'red'}};">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</span>
                           </div>
                           <div class="col-md-3 text-right">
                             <input type="hidden" class="form-control" id="team" name="team" value="">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='btn-team'>
                               Select Team
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id='drp-team'>
                               @if(!empty($team_list))
                                 @foreach($team_list as $key => $value)
                                   @if($value['id'] != $user_info['team_id'])
@@ -254,7 +254,7 @@
                       <div class="form-group">
                         <div class="row">
                           <div class="col-md-9">
-                            <label>Current Employee Role:</label> <span id="er_name">{{(($user_info['er_name'])?$user_info['er_name']:"No Data")}}</span>
+                            <label>Current Employee Role:</label> <span id="er_name" style="color: {{($user_info['er_name'])?'':'red'}};">{{(($user_info['er_name'])?$user_info['er_name']:"No Data")}}</span>
                           </div>
                           <div class="col-md-3 text-right">
                             <input type="hidden" class="form-control" id="er_key" name="er_key" value="">
@@ -353,6 +353,9 @@
           $('#team').val('');
           $('#role_key').val('');
           $('#er_key').val('');
+          if($('#drp-team *').length === 0){
+            $('#btn-team').attr('disabled','');
+          }
         }
 
         function openEditModal(){
