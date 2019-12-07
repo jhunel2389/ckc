@@ -176,7 +176,7 @@
                       <!-- /.card-body -->
                 <div class="modal-footer justify-content-between">
                 </div>
-              </form>
+              </div>
             </div>
             <!-- /.modal-content -->
           </div>
