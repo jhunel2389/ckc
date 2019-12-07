@@ -12,6 +12,7 @@ use App\Teams;
 use App\Tools;
 use App\EmployeeRoles;
 use App\EmployeeRolesTools;
+use App\TeamEmployeeRoles;
 
 class SystemController extends Controller
 {
@@ -321,6 +322,54 @@ class SystemController extends Controller
 
         $response = EmployeeRolesTools::destroy($request['ert_id']);
         $response = Utils::msgAlerts($response,"Tools Succesfully Remove!",$request->ajax());
+        
+        return $response;
+    }
+
+    public function getTeams(Request $request){
+        $list = EmployeeRoles::getAvailableERPerTeam([self::STATUS_ACTIVE],$request['team_id']);
+        return $list;
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function teamer_ajax_validator(array $data)
+    {
+        return Validator::make($data, [
+            'er_id' => ['required', 'string', 'max:255'],
+            'team_id' => ['required', 'string', 'max:255']
+        ]);
+    }
+
+    public function addTeamsERData(Request $request){
+        $validator = $this->teamer_ajax_validator($request->all())->validate();
+
+        $data = array (
+            'er_id'          => $request['er_id'],
+            'team_id'   => $request['team_id']
+        );
+
+        $response = TeamEmployeeRoles::create($data);
+        $response = Utils::msgAlerts($response,"Employee Role Succesfully Added!",$request->ajax());
+        
+        return $response;
+    }
+
+    public function teamERData(Request $request){
+        $data = array (
+            'team_id'          => $request['team_id']
+        );
+        return Datatables::of(TeamEmployeeRoles::getListByTeam($data))->make(true);
+    }
+
+    public function deleteTeamERData(Request $request){
+
+        $response = TeamEmployeeRoles::destroy($request['ter_id']);
+        $response = Utils::msgAlerts($response,"Employee Role Succesfully Remove!",$request->ajax());
         
         return $response;
     }

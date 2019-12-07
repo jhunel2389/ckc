@@ -32,4 +32,11 @@ class EmployeeRoles extends Model
     {
         return self::whereIn('status', $status)->get();
     }
+
+    public static function getAvailableERPerTeam(array $status,$team_id = null)
+    {
+        return self::whereIn('employee_roles.status', $status)->select('employee_roles.*')->leftJoin('teams_employee_roles','teams_employee_roles.er_id','=','employee_roles.id')
+        ->whereNull('teams_employee_roles.team_id')
+        ->orWhere('teams_employee_roles.team_id','<>',$team_id)->get();
+    }
 }
