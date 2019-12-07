@@ -10,7 +10,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3>{{$active_teams}}</h3>
 
                 <p>Active Teams</p>
               </div>
@@ -25,9 +25,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53</h3>
+                <h3>{{$active_tools}}</h3>
 
-                <p>Total New Register Today</p>
+                <p>Active Tools</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -40,7 +40,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{$total_reg}}</h3>
 
                 <p>Total Registered User</p>
               </div>
@@ -55,7 +55,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3>{{$active_roles}}</h3>
 
                 <p>Total Active Role</p>
               </div>
