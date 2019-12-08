@@ -463,7 +463,7 @@
           $('#span-prim-tools').html($name);
         }
 
-        function selectPrimeRate($rate,$name){
+        function selectPrimRate($rate,$name){
           $('#proficiency_rate').val($rate);
           $('#span-prim-prof').html($name);
         }
