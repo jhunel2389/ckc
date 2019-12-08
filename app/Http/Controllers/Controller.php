@@ -17,4 +17,6 @@ class Controller extends BaseController
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 2;
     const STATUS_DELETED = 0;
+    const PRIMARY_TOOLS = 1;
+    const SECONDARY_TOOLS = 2;
 }

@@ -63,7 +63,51 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                <div class="form-group">
+                  <form action="{{ route('addUserTools') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                      <div class="col-md-4">
+                          <input type="hidden" id="tool_id" name="tool_id">
+                          <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-prim-tools" id="btn-tools">
+                            Select Tools
+                          </button>
+                          <div class="dropdown-menu" id="drp-prim-tools">
+                            @if(!empty($primary_tools))
+                              @foreach($primary_tools as $key => $value)
+                                <a class="dropdown-item" href="#" onclick="selectPrimeTools('{{$value['tool_id']}}','{{$value['name']}}')">
+                                {{$value['name']}}
+                                </a>
+                              @endforeach
+                            @endif
+                          </div>
+                          <span id="span-prim-tools"></span>
+                      </div>
+                      <div class="col-md-4">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-prim-prof">
+                          Category
+                        </button>
+                        <input type="hidden" id="proficiency_rate" name="proficiency_rate" value="">
+                        <div class="dropdown-menu" id="drp-prim-prof">
+                          <a class="dropdown-item" href="#" onclick="selectRate(0,'P0')">P0</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(1,'P1')">P1</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(2,'P2')">P2</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(3,'P3')">P3</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(4,'P4')">P4</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(5,'P5')">P5</a>
+                        </div>
+                        <span id="span-prim-prof"></span>
+                      </div>
+                      <div class="col-md-4">
+                        <button type="submit" class="btn btn-block btn-success btn-m" id="btn-add-prim-tools">Add Tools</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                @endif
+                <table id="primary-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Tools</th>
@@ -73,36 +117,34 @@
                   <th>P3</th>
                   <th>P4</th>
                   <th>P5</th>
+                  @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                  <th>Action</th>
+                  @endif
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>SQL</td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="fas fa-star" style="color: red;"></td>
-                  <td><i class="fas fa-star" style="color: red;"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                </tr>
-                <tr>
-                  <td>Informatica</td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                </tr>
-                <tr>
-                  <td>Agile</td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                </tr>
+                  @if(!empty($primary_tools_list))
+                    @foreach($primary_tools_list as $key => $value)
+                      <tr>
+                        <td>{{$value['name']}}</td>
+                        <td><i class="{{($value['proficiency_rate'] <= 0)?'far':'fas'}} fa-star"></i></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 1)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 2)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 3)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 4)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 5)?'far':'fas'}} fa-star"></td>
+                        @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                          <td>
+                            <form action="{{ route('deleteUserTools') }}" method="POST" id="formUpdateStatus">
+                              @csrf
+                              <input type="hidden" id="user_tool_id" name="user_tool_id" value="{{$value['id']}}">
+                              <button type="submit" class="btn btn-xs"><i class="fa fa-trash" title="Tools"></i></button>
+                            </form>
+                          </td>
+                        @endif
+                      </tr>
+                    @endforeach
+                  @endif
                 </tbody>
                 <tfoot>
                 <tr>
@@ -120,7 +162,51 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                <div class="form-group">
+                  <form action="{{ route('addUserTools') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                      <div class="col-md-4">
+                          <input type="hidden" id="tool_id" name="tool_id">
+                          <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-sec-tools" id="btn-tools">
+                            Select Tools
+                          </button>
+                          <div class="dropdown-menu" id="drp-sec-tools">
+                            @if(!empty($secondary_tools))
+                              @foreach($secondary_tools as $key => $value)
+                                <a class="dropdown-item" href="#" onclick="selectPrimeTools('{{$value['tool_id']}}','{{$value['name']}}')">
+                                {{$value['name']}}
+                                </a>
+                              @endforeach
+                            @endif
+                          </div>
+                          <span id="span-prim-tools"></span>
+                      </div>
+                      <div class="col-md-4">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-sec-prof">
+                          Category
+                        </button>
+                        <input type="hidden" id="proficiency_rate" name="proficiency_rate" value="">
+                        <div class="dropdown-menu" id="drp-sec-prof">
+                          <a class="dropdown-item" href="#" onclick="selectRate(0,'P0')">P0</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(1,'P1')">P1</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(2,'P2')">P2</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(3,'P3')">P3</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(4,'P4')">P4</a>
+                          <a class="dropdown-item" href="#" onclick="selectRate(5,'P5')">P5</a>
+                        </div>
+                        <span id="span-prim-prof"></span>
+                      </div>
+                      <div class="col-md-4">
+                        <button type="submit" class="btn btn-block btn-success btn-m" id="btn-add-sec-tools">Add Tools</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                @endif
+                <table id="secondary-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Tools</th>
@@ -130,36 +216,34 @@
                   <th>P3</th>
                   <th>P4</th>
                   <th>P5</th>
+                  @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                  <th>Action</th>
+                  @endif
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Safety</td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="fas fa-star" style="color: red;"></td>
-                  <td><i class="fas fa-star" style="color: red;"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                </tr>
-                <tr>
-                  <td>Data Modeling</td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                </tr>
-                <tr>
-                  <td>Data Analysis</td>
-                  <td><i class="fas fa-star" style="color: red;"></i></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                  <td><i class="far fa-star"></td>
-                </tr>
+                  @if(!empty($secondary_tools_list))
+                    @foreach($secondary_tools_list as $key => $value)
+                      <tr>
+                        <td>{{$value['name']}}</td>
+                        <td><i class="{{($value['proficiency_rate'] <= 0)?'far':'fas'}} fa-star"></i></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 1)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 2)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 3)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 4)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] <= 5)?'far':'fas'}} fa-star"></td>
+                        @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                          <td>
+                            <form action="{{ route('deleteUserTools') }}" method="POST" id="formUpdateStatus">
+                              @csrf
+                              <input type="hidden" id="user_tool_id" name="user_tool_id" value="{{$value['id']}}">
+                              <button type="submit" class="btn btn-xs"><i class="fa fa-trash" title="Tools"></i></button>
+                            </form>
+                          </td>
+                        @endif
+                      </tr>
+                    @endforeach
+                  @endif
                 </tbody>
                 <tfoot>
                 <tr>
@@ -353,8 +437,20 @@
           $('#team').val('');
           $('#role_key').val('');
           $('#er_key').val('');
+          
           if($('#drp-team *').length === 0){
             $('#btn-team').attr('disabled','');
+          }
+
+          if($('#drp-prim-tools *').length === 0){
+            $('#btn-sec-tools').attr('disabled','');
+            $('#btn-sec-prof').attr('disabled','');
+            $('#btn-add-sec-tools').attr('disabled','');
+          }
+          if($('#drp-sec-tools *').length === 0){
+            $('#btn-sec-tools').attr('disabled','');
+            $('#btn-sec-prof').attr('disabled','');
+            $('#btn-add-sec-tools').attr('disabled','');
           }
         }
 
@@ -362,6 +458,15 @@
           $('#btn-er').attr('disabled','');
         }
 
+        function selectPrimeTools($tool_id,$name){
+          $('#tool_id').val($tool_id);
+          $('#span-prim-tools').html($name);
+        }
+
+        function selectRate($rate,$name){
+          $('#proficiency_rate').val($rate);
+          $('#span-prim-prof').html($name);
+        }
         clearHiddenInput();
       </script>
     @endsection

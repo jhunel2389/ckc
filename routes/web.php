@@ -58,3 +58,7 @@ Route::get('get-team-er-data', 'SystemController@teamERData')->name('datatables.
 Route::post('add-team-er-data', 'SystemController@addTeamsERData')->name('ajax.add-team-er');
 Route::post('delete-team-er-data', 'SystemController@deleteTeamERData')->name('ajax.delete-team-er');
 
+
+Route::post('addUserTools', 'ProfileController@addUserTools')->name('addUserTools');
+Route::post('deleteUserTools', 'ProfileController@deleteUserTools')->name('deleteUserTools');
+
