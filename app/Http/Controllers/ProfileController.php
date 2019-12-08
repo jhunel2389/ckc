@@ -129,7 +129,7 @@ class ProfileController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function user_tools_validator(array $data)
+    protected function user_pri_tools_validator(array $data)
     {
         return Validator::make($data, [
             'user_id' => ['required', 'string', 'max:255'],
@@ -138,13 +138,43 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function addUserTools(Request $request){
-        $validator = $this->user_tools_validator($request->all())->validate();
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function user_sec_tools_validator(array $data)
+    {
+        return Validator::make($data, [
+            'user_id' => ['required', 'string', 'max:255'],
+            'sec_tool_id' => ['required', 'string', 'max:255'],
+            'sec_proficiency_rate' => ['required', 'string', 'max:255']
+        ]);
+    }
+
+    public function addUserPrimTools(Request $request){
+        $validator = $this->user_pri_tools_validator($request->all())->validate();
 
         $data = array (
             'user_id'   => $request['user_id'],
             'tool_id'   => $request['tool_id'],
             'proficiency_rate'   => $request['proficiency_rate']
+        );
+
+        $response = UserTools::create($data);
+        $response = Utils::msgAlerts($response);
+        
+        return redirect()->back();
+    }
+
+    public function addUserSecTools(Request $request){
+        $validator = $this->user_sec_tools_validator($request->all())->validate();
+
+        $data = array (
+            'user_id'   => $request['user_id'],
+            'tool_id'   => $request['sec_tool_id'],
+            'proficiency_rate'   => $request['sec_proficiency_rate']
         );
 
         $response = UserTools::create($data);

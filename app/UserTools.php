@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\EmployeeRolesTools;
 class UserTools extends Model
 {
     /**
@@ -31,7 +31,10 @@ class UserTools extends Model
     public static function getUserToolList($user_id,$tools_category,$er_id)
     {
     	$tool_by_user = self::where('user_id', '=', $user_id)->pluck('tool_id')->toArray();
-    	
-    	return self::join('tools', 'tools.id', '=', 'user_tools.tool_id')->select('tools.name as name','user_tools.id as id','user_tools.proficiency_rate as proficiency_rate')->get();
+
+    	$tool_by_er_cat = EmployeeRolesTools::where('er_id',$er_id)->where('category_id',$tools_category)->whereIn('tool_id', $tool_by_user)->pluck('tool_id')->toArray();
+
+		//var_dump(count($tool_by_er_cat));die();
+    	return self::leftJoin('tools', 'tools.id', '=', 'user_tools.tool_id')->select('tools.name as name','user_tools.id as id','user_tools.proficiency_rate as proficiency_rate')->whereIn('user_tools.tool_id', $tool_by_er_cat)->get();
     }
 }

@@ -65,7 +65,7 @@
               <div class="card-body">
                 @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
                 <div class="form-group">
-                  <form action="{{ route('addUserTools') }}" method="POST">
+                  <form action="{{ route('addUserPrimTools') }}" method="POST">
                     @csrf
                     <div class="row">
                       <div class="col-md-4">
@@ -91,12 +91,12 @@
                         </button>
                         <input type="hidden" id="proficiency_rate" name="proficiency_rate" value="">
                         <div class="dropdown-menu" id="drp-prim-prof">
-                          <a class="dropdown-item" href="#" onclick="selectRate(0,'P0')">P0</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(1,'P1')">P1</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(2,'P2')">P2</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(3,'P3')">P3</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(4,'P4')">P4</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(5,'P5')">P5</a>
+                          <a class="dropdown-item" href="#" onclick="selectPrimRate(0,'P0')">P0</a>
+                          <a class="dropdown-item" href="#" onclick="selectPrimRate(1,'P1')">P1</a>
+                          <a class="dropdown-item" href="#" onclick="selectPrimRate(2,'P2')">P2</a>
+                          <a class="dropdown-item" href="#" onclick="selectPrimRate(3,'P3')">P3</a>
+                          <a class="dropdown-item" href="#" onclick="selectPrimRate(4,'P4')">P4</a>
+                          <a class="dropdown-item" href="#" onclick="selectPrimRate(5,'P5')">P5</a>
                         </div>
                         <span id="span-prim-prof"></span>
                       </div>
@@ -164,40 +164,40 @@
               <div class="card-body">
                 @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
                 <div class="form-group">
-                  <form action="{{ route('addUserTools') }}" method="POST">
+                  <form action="{{ route('addUserSecTools') }}" method="POST">
                     @csrf
                     <div class="row">
                       <div class="col-md-4">
-                          <input type="hidden" id="tool_id" name="tool_id">
+                          <input type="hidden" id="sec_tool_id" name="sec_tool_id">
                           <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
-                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-sec-tools" id="btn-tools">
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-sec-tools">
                             Select Tools
                           </button>
                           <div class="dropdown-menu" id="drp-sec-tools">
                             @if(!empty($secondary_tools))
                               @foreach($secondary_tools as $key => $value)
-                                <a class="dropdown-item" href="#" onclick="selectPrimeTools('{{$value['tool_id']}}','{{$value['name']}}')">
+                                <a class="dropdown-item" href="#" onclick="selectSecTools('{{$value['tool_id']}}','{{$value['name']}}')">
                                 {{$value['name']}}
                                 </a>
                               @endforeach
                             @endif
                           </div>
-                          <span id="span-prim-tools"></span>
+                          <span id="span-sec-tools"></span>
                       </div>
                       <div class="col-md-4">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-sec-prof">
                           Category
                         </button>
-                        <input type="hidden" id="proficiency_rate" name="proficiency_rate" value="">
+                        <input type="hidden" id="sec_proficiency_rate" name="sec_proficiency_rate" value="">
                         <div class="dropdown-menu" id="drp-sec-prof">
-                          <a class="dropdown-item" href="#" onclick="selectRate(0,'P0')">P0</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(1,'P1')">P1</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(2,'P2')">P2</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(3,'P3')">P3</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(4,'P4')">P4</a>
-                          <a class="dropdown-item" href="#" onclick="selectRate(5,'P5')">P5</a>
+                          <a class="dropdown-item" href="#" onclick="selectSecRate(0,'P0')">P0</a>
+                          <a class="dropdown-item" href="#" onclick="selectSecRate(1,'P1')">P1</a>
+                          <a class="dropdown-item" href="#" onclick="selectSecRate(2,'P2')">P2</a>
+                          <a class="dropdown-item" href="#" onclick="selectSecRate(3,'P3')">P3</a>
+                          <a class="dropdown-item" href="#" onclick="selectSecRate(4,'P4')">P4</a>
+                          <a class="dropdown-item" href="#" onclick="selectSecRate(5,'P5')">P5</a>
                         </div>
-                        <span id="span-prim-prof"></span>
+                        <span id="span-sec-prof"></span>
                       </div>
                       <div class="col-md-4">
                         <button type="submit" class="btn btn-block btn-success btn-m" id="btn-add-sec-tools">Add Tools</button>
@@ -443,9 +443,9 @@
           }
 
           if($('#drp-prim-tools *').length === 0){
-            $('#btn-sec-tools').attr('disabled','');
-            $('#btn-sec-prof').attr('disabled','');
-            $('#btn-add-sec-tools').attr('disabled','');
+            $('#btn-prim-tools').attr('disabled','');
+            $('#btn-prim-prof').attr('disabled','');
+            $('#btn-add-prim-tools').attr('disabled','');
           }
           if($('#drp-sec-tools *').length === 0){
             $('#btn-sec-tools').attr('disabled','');
@@ -463,9 +463,19 @@
           $('#span-prim-tools').html($name);
         }
 
-        function selectRate($rate,$name){
+        function selectPrimeRate($rate,$name){
           $('#proficiency_rate').val($rate);
           $('#span-prim-prof').html($name);
+        }
+
+        function selectSecTools($tool_id,$name){
+          $('#sec_tool_id').val($tool_id);
+          $('#span-sec-tools').html($name);
+        }
+
+        function selectSecRate($rate,$name){
+          $('#sec_proficiency_rate').val($rate);
+          $('#span-sec-prof').html($name);
         }
         clearHiddenInput();
       </script>

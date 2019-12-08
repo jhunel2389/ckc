@@ -59,6 +59,8 @@ Route::post('add-team-er-data', 'SystemController@addTeamsERData')->name('ajax.a
 Route::post('delete-team-er-data', 'SystemController@deleteTeamERData')->name('ajax.delete-team-er');
 
 
-Route::post('addUserTools', 'ProfileController@addUserTools')->name('addUserTools');
+Route::post('addUserPrimTools', 'ProfileController@addUserPrimTools')->name('addUserPrimTools');
+
+Route::post('addUserSecTools', 'ProfileController@addUserSecTools')->name('addUserSecTools');
 Route::post('deleteUserTools', 'ProfileController@deleteUserTools')->name('deleteUserTools');
 
