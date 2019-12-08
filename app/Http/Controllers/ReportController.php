@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+use App\Tools;
 
 class ReportController extends Controller
 {
@@ -35,5 +37,13 @@ class ReportController extends Controller
     	);
 
     	return view('pages.report.training_status_report')->with($data);
+    }
+
+    public function toolsSummaryReport(Request $request){
+        return Datatables::of(Tools::toolsSummaryReport())->make(true);
+    }
+
+    public function toolsSummaryNameReport(Request $request){
+        return Datatables::of(Tools::toolsSummaryNameReport())->make(true);
     }
 }

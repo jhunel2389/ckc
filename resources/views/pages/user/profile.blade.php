@@ -87,7 +87,7 @@
                       </div>
                       <div class="col-md-4">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-prim-prof">
-                          Category
+                          Proficiency Rate
                         </button>
                         <input type="hidden" id="proficiency_rate" name="proficiency_rate" value="">
                         <div class="dropdown-menu" id="drp-prim-prof">
@@ -127,12 +127,12 @@
                     @foreach($primary_tools_list as $key => $value)
                       <tr>
                         <td>{{$value['name']}}</td>
-                        <td><i class="{{($value['proficiency_rate'] <= 0)?'far':'fas'}} fa-star"></i></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 1)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 2)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 3)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 4)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 5)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 0)?'fas':'far'}} fa-star"></i></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 1)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 2)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 3)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 4)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 5)?'fas':'far'}} fa-star"></td>
                         @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
                           <td>
                             <form action="{{ route('deleteUserTools') }}" method="POST" id="formUpdateStatus">
@@ -186,7 +186,7 @@
                       </div>
                       <div class="col-md-4">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-sec-prof">
-                          Category
+                          Proficiency Rate
                         </button>
                         <input type="hidden" id="sec_proficiency_rate" name="sec_proficiency_rate" value="">
                         <div class="dropdown-menu" id="drp-sec-prof">
@@ -226,12 +226,12 @@
                     @foreach($secondary_tools_list as $key => $value)
                       <tr>
                         <td>{{$value['name']}}</td>
-                        <td><i class="{{($value['proficiency_rate'] <= 0)?'far':'fas'}} fa-star"></i></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 1)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 2)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 3)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 4)?'far':'fas'}} fa-star"></td>
-                        <td><i class="{{($value['proficiency_rate'] <= 5)?'far':'fas'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 0)?'fas':'far'}} fa-star"></i></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 1)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 2)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 3)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 4)?'fas':'far'}} fa-star"></td>
+                        <td><i class="{{($value['proficiency_rate'] >= 5)?'fas':'far'}} fa-star"></td>
                         @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
                           <td>
                             <form action="{{ route('deleteUserTools') }}" method="POST" id="formUpdateStatus">

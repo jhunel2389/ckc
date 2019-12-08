@@ -64,3 +64,5 @@ Route::post('addUserPrimTools', 'ProfileController@addUserPrimTools')->name('add
 Route::post('addUserSecTools', 'ProfileController@addUserSecTools')->name('addUserSecTools');
 Route::post('deleteUserTools', 'ProfileController@deleteUserTools')->name('deleteUserTools');
 
+Route::get('tools-summary-report', 'ReportController@toolsSummaryReport')->name('datatables.tools-summary-report');
+Route::get('tools-summary-name-report', 'ReportController@toolsSummaryNameReport')->name('datatables.tools-summary-name-report');

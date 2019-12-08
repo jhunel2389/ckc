@@ -11,7 +11,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="summary-table" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                   <th>Tools</th>
@@ -23,37 +23,6 @@
                   <th>P5</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                  <td>SQL</td>
-                  <td>10</td>
-                  <td>1</td>
-                  <td>4</td>
-                  <td>7</td>
-                  <td>9</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>Informatica</td>
-                  <td>2</td>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>4</td>
-                  <td>9</td>
-                  <td>1</td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>Total:</th>
-                  <th>5</th>
-                  <th>5</th>
-                  <th>3</th>
-                  <th>2</th>
-                  <th>2</th>
-                  <th>3</th>
-                </tr>
-                </tfoot>
               </table>
             </div>
             <!-- /.card-body -->
@@ -66,50 +35,16 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="summary-name-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Name</th>
                   <th>Team</th>
-                  <th>Role</th>
-                  <th>Tools</th>
-                  <th>Points</th>
+                  <th>Employee Role</th>
+                  <th>Tool</th>
+                  <th>Rate</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>SQL</td>
-                  <td>P4</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>Informatica</td>
-                  <td>P2</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>Python</td>
-                  <td>P3</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>VBS</td>
-                  <td>System Analyst</td>
-                  <td>Data Modeling</td>
-                  <td>P1</td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                </tr>
-                </tfoot>
               </table>
             </div>
             <!-- /.card-body -->
@@ -126,16 +61,47 @@
       <script>
         $(function () {
           $(".table").DataTable();
-          // $("#example1").DataTable();
-          // $('#example2').DataTable({
-          //   "paging": true,
-          //   "lengthChange": false,
-          //   "searching": false,
-          //   "ordering": true,
-          //   "info": true,
-          //   "autoWidth": false,
-          // });
         });
+
+        $("#summary-table").DataTable(
+          {
+              processing: true,
+              serverSide: true,
+              ajax: {
+                url: '{!! route('datatables.tools-summary-report') !!}',
+                type: 'GET',
+                data: function (d) {
+                }
+              },
+              columns: [
+                  { data: 'tool_name', name: 'tool_name' },
+                  { data: 'p0', name: 'p0' },
+                  { data: 'p1', name: 'p1' },
+                  { data: 'p2', name: 'p2' },
+                  { data: 'p3', name: 'p3' },
+                  { data: 'p4', name: 'p4' },
+                  { data: 'p5', name: 'p5' },
+              ]
+          });
+
+          $("#summary-name-table").DataTable(
+            {
+                processing: true,
+                serverSide: true,
+                ajax: {
+                  url: '{!! route('datatables.tools-summary-name-report') !!}',
+                  type: 'GET',
+                  data: function (d) {
+                  }
+                },
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'team', name: 'team' },
+                    { data: 'employee_role', name: 'employee_role' },
+                    { data: 'tool', name: 'tool' },
+                    { data: 'rate', name: 'rate' }
+                ]
+            });
       </script>
     @endsection
 @endsection
