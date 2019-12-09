@@ -115,6 +115,10 @@ class PermissionTableSeeder extends Seeder
             [
                 "permission_key" => "view_system_roles",
                 "description" => "System Roles View",
+            ],
+            [
+                "permission_key" => "edit_system_roles",
+                "description" => "System Roles Edit",
             ]
     	];
 

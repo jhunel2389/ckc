@@ -59,6 +59,7 @@ Route::post('delete-er-tools-data', 'SystemController@deleteERToolsData')->name(
 Route::get('get-team-er-data', 'SystemController@teamERData')->name('datatables.team-er');
 Route::post('add-team-er-data', 'SystemController@addTeamsERData')->name('ajax.add-team-er');
 Route::post('delete-team-er-data', 'SystemController@deleteTeamERData')->name('ajax.delete-team-er');
+Route::post('update-role-permission', 'SystemController@updateRolePermission')->name('ajax.update-role-permission');
 
 
 Route::post('addUserPrimTools', 'ProfileController@addUserPrimTools')->name('addUserPrimTools');
@@ -68,3 +69,4 @@ Route::post('deleteUserTools', 'ProfileController@deleteUserTools')->name('delet
 
 Route::get('tools-summary-report', 'ReportController@toolsSummaryReport')->name('datatables.tools-summary-report');
 Route::get('tools-summary-name-report', 'ReportController@toolsSummaryNameReport')->name('datatables.tools-summary-name-report');
+Route::get('system-permission-by-role', 'SystemController@getSystemPermissionByRole')->name('datatables.system-permission-by-role');

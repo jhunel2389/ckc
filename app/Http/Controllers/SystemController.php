@@ -10,9 +10,11 @@ use Yajra\Datatables\Datatables;
 use App\User;
 use App\Teams;
 use App\Tools;
+use App\Roles;
 use App\EmployeeRoles;
 use App\EmployeeRolesTools;
 use App\TeamEmployeeRoles;
+use App\RolesPermission;
 
 class SystemController extends Controller
 {
@@ -385,7 +387,7 @@ class SystemController extends Controller
             return redirect(route('home'));
         };
 
-        $list = Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+        $list = Roles::all();
         
         $data = array(
             'title'     => 'System Roles',
@@ -397,5 +399,39 @@ class SystemController extends Controller
         );
         
         return view('pages.system.system_roles')->with($data);
+    }
+
+    public function getSystemPermissionByRole(Request $request){
+        //var_dump($request['role_key']);die();
+        return Datatables::of(RolesPermission::getPermissionPerRole($request['role_key']))->make(true);
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function role_permission_ajax_validator(array $data)
+    {
+        return Validator::make($data, [
+            'role_key' => ['required', 'string', 'max:255'],
+            'permission_key' => ['required', 'string', 'max:255'],
+            'status' => ['required', 'string', 'max:255']
+        ]);
+    }
+
+    public function updateRolePermission(Request $request){
+        $validator = $this->role_permission_ajax_validator($request->all())->validate();
+
+        $data = array (
+            'er_id'          => $request['er_id'],
+            'team_id'   => $request['team_id']
+        );
+
+        $response = TeamEmployeeRoles::create($data);
+        $response = Utils::msgAlerts($response,"Employee Role Succesfully Added!",$request->ajax());
+        
+        return $response;
     }
 }

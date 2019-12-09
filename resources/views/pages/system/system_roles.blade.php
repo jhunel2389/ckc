@@ -13,22 +13,15 @@
                     <span>Summary</span>
                   </h3>
                 </div>
-                <div class="col-md-1">
-                  @if($utils::checkPermissions('add_tools'))
-                  <button type="button" class="btn btn-block btn-success btn-xs" onclick="showModal('add_item','')">Add</button>
-                  @endif
-                </div>
               </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="sys-role-table" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
+                  <th>Role Key</th>
                   <th>Description</th>
-                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -36,31 +29,10 @@
                 @if(!empty($list))
                   @foreach($list as $key => $value)
                     <tr>
-                      <td>{{$value['id']}}</td>
-                      <td><span id="td_name_{{$value['id']}}">{{$value['name']}}</td></span>
+                      <td><span id="td_name_{{$value['id']}}">{{$value['role_key']}}</td></span>
                       <td><span id="td_desc_{{$value['id']}}">{{$value['description']}}</span></td>
-                      <td>{{$utils::statusIntToString($value['status'])}}</td>
                       <td>
-                        
-                        <form action="{{ route('updateTool') }}" method="POST" id="formUpdateStatus">
-                          @csrf
-                          @if($utils::checkPermissions('edit_tools'))
-                          <button type="button" class="btn btn-xs" onclick="showModal('update_item','{{$value['id']}}')"><i class="fa fa-edit" title="Edit"></i></button>
-                          @endif
-                          @if($value['status'] != 2 && $utils::checkPermissions('disable_tools'))
-                            <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('disable_item','{{2}}','{{$value['id']}}')"><i class="fa fa-ban" title="Disable"></i>
-                            </button>
-                          @endif
-                          @if($value['status'] != 1 && $utils::checkPermissions('disable_tools'))
-                            <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('active_item','{{1}}','{{$value['id']}}')"><i class="fa fa-check-circle" title="Active"></i>
-                            </button>
-                          @endif
-                          @if($utils::checkPermissions('delete_tools'))
-                            <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('trash_item','{{0}}','{{$value['id']}}')"><i class="fa fa-trash" title="Delete"></i></button>
-                            <input type="hidden" id="status" name="status">
-                            <input type="hidden" id="status_id" name="status_id">
-                          @endif
-                        </form>
+                          <button type="button" class="btn btn-xs" onclick="openSR('{{$value['role_key']}}')"><i class="fa fa-tools" title="System Role"></i></button>
                       </td>
                     </tr>
                   @endforeach
@@ -81,38 +53,43 @@
     <!-- /.content -->
     @if($utils::checkPermissions('add_tools') || $utils::checkPermissions('edit_tools'))
       <!-- ADD MODAL -->
-      <div class="modal fade" id="modal-form">
+      <div class="modal fade" id="modal-tools">
           <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" id="modal-content-tools">
               <div class="modal-header">
-                <h4 class="modal-title" id="modal-h4">Add Tool</h4>
+                <h4 class="modal-title" id="modal-h4">System Permission Management</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('addTool') }}" method="POST" id="formAddTeams">
-                @csrf
                 <div class="modal-body">
                     <!-- form start -->
-                      <div class="card-body">
-                        <div class="form-group">
-                          <label for="team_name">Name</label>
-                          <input type="text" class="form-control" id="name" name="name" value="" placeholder="Enter tools name" required>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <input type="hidden" id="role_key" name="role_key">
+                            <span>Permission</span>
+                          </h3>
                         </div>
-                        <div class="form-group">
-                          <label for="description">Description</label>
-                          <input type="text" class="form-control" id="description" name="description" placeholder="Enter team description" value="">
+                        <div class="card-body">
+                          <table id="system-permission-table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Action</th>
+                            </tr>
+                            </thead>
+                          </table>
                         </div>
-                        <input type="hidden" id="data_id" name="data_id">
                       </div>
+                    </div>
+                  </div>
                       <!-- /.card-body -->
-                    
-                </div>
                 <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" id="submitBtn" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">Save changes</button>
                 </div>
-              </form>
+              </div>
             </div>
             <!-- /.modal-content -->
           </div>
@@ -123,7 +100,7 @@
     @section('custom_script')
       <script>
         $(function () {
-          $(".table").DataTable();
+          $("#sys-role-table").DataTable();
         });
 
         $('#submitBtn').click(function() {
@@ -132,24 +109,70 @@
              $('#confirm_submit').attr("onclick","submit_form('formAddTeams')");
         });
 
-        function editStatus($action,$statusTo,$id){
-            $('#modal_header').text("Confirmation");
-            $('#modal_message').text("Are you sure you want to procced?");
-            $('#confirm_submit').attr("onclick","submit_form('formUpdateStatus')");
-            $('#status').val($statusTo);
-            $('#status_id').val($id);
+        function openSR(role_key){
+          $('#modal-content-tools').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
+          $('#role_key').val('');
+          $('#role_key').val(role_key);
+          $('#modal-tools').modal();
+          loadSRPermission();
         }
 
-        function showModal($action,$id){
-          if($action == 'update_item'){
-            $('#modal-h4').text("Update Team");
-            $('#data_id').val($id);
-            $('#name').val($('#td_name_'+$id).text());
-            $('#description').val($('#td_desc_'+$id).text());
+        function loadSRPermission() {
+          $("#system-permission-table").DataTable().destroy();
+          $("#system-permission-table").DataTable(
+            {
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                ajax: {
+                  url: '{!! route('datatables.system-permission-by-role') !!}',
+                  type: 'GET',
+                  data: function (d) {
+                    d.role_key = $('#role_key').val();
+                  }
+                },
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'permission_key', render: function (data, type, row) {
+                      if(row.enabled){
+                        return '<div class="form-check"><input class="form-check-input" id="'+row.permission_key+'" type="checkbox" checked onclick="changeCheckbox(this)"></div>'; 
+                      } else{
+                        return '<div class="form-check"><input class="form-check-input" id="'+row.permission_key+'" type="checkbox" onclick="changeCheckbox(this)"></div>'; 
+                      }
+                      }
+                     
+                    }
+                ]
+            });
+        }
+
+        function changeCheckbox($this){
+          var permission_key = $($this).attr("id");
+          var role_key = $('#role_key').val();
+          var checked = $($this).attr("checked");
+          if (typeof checked !== typeof undefined && checked !== false) {
+            $($this).removeAttr("checked");
+            updatePermission(role_key,permission_key,false)
+          }else {
+            $($this).attr("checked","");
+            updatePermission(role_key,permission_key,true)
           }
-
-          $('#modal-form').modal()
+          
         }
+        function updatePermission(role_key,permission_key,status){
+          $.post("{{route('ajax.update-role-permission')}}", { role_key: role_key, permission_key: permission_key, status: status , _token: "{{ csrf_token() }}" }, function(data, status){
+            if(status === 'success'){
+              alerts_float(data.alert_status,data.alert_msg,data.alert_class);
+              refreshAjaxCall();
+            }
+          })
+          .fail(function(response) { 
+            alerts_float('Error',"All fields are required!",'bg-danger');
+          });
+        }
+        $(document).ajaxStop(function() {
+          $('.overlay').remove();
+        });
       </script>
     @endsection
 @endsection
