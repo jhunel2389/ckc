@@ -358,13 +358,13 @@
 
         function refreshAjaxCall(){
           $('#modal-content-tools').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
+          loadPrimaryToolsTable();
+          loadSecondaryToolsTable();
           $('#tool_id').val('');
           $('#tool_name').html('');
           $('#cat_id').val('');
           $('#cat_name').text('');
           getTools();
-          loadPrimaryToolsTable();
-          loadSecondaryToolsTable();
         }
         $(document).ajaxStop(function() {
           $('.overlay').remove();

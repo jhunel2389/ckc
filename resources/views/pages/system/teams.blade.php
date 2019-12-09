@@ -60,7 +60,7 @@
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="team_status_id" name="team_status_id">
                           @endif
-                          <button type="button" class="btn btn-xs" onclick="openER('{{$value['id']}}')"><i class="fa fa-tools" title="Tools"></i></button>
+                          <button type="button" class="btn btn-xs" onclick="openER('{{$value['id']}}')"><i class="fa fa-tools" title="Employee Role"></i></button>
                         </form>
                       </td>
                     </tr>
