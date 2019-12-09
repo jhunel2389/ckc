@@ -224,7 +224,7 @@
         });
 
         function loadPrimaryToolsTable() {
-          //$("#tool-primary-table").DataTable().destroy();
+          $("#tool-primary-table").DataTable().destroy();
           $("#tool-primary-table").DataTable(
             {
                 processing: true,
@@ -246,7 +246,7 @@
         }
 
         function loadSecondaryToolsTable() {
-          //$("#tool-secondary-table").DataTable().destroy();
+          $("#tool-secondary-table").DataTable().destroy();
           $("#tool-secondary-table").DataTable(
             {
                 processing: true,
