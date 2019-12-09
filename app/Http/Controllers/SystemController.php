@@ -25,7 +25,7 @@ class SystemController extends Controller
     
     public function users(){
         
-        if(!Utils::permissionsViews('view_users')){
+        if(!Utils::permissionsViews('view_user_profile')){
             return redirect(route('home'));
         };
 
@@ -425,13 +425,18 @@ class SystemController extends Controller
         $validator = $this->role_permission_ajax_validator($request->all())->validate();
 
         $data = array (
-            'role_key'          => $request['er_id'],
-            'permission_key'   => $request['team_id']
+            'role_key'          => $request['role_key'],
+            'permission_key'   => $request['permission_key']
         );
 
-        // $response = TeamEmployeeRoles::create($data);
-        // $response = Utils::msgAlerts($response,"Employee Role Succesfully Added!",$request->ajax());
+        if($request['status'] == "true"){
+            $response = RolesPermission::create($data);  
+            $response = Utils::msgAlerts($response,"Succesfully Added!",$request->ajax());
+          } else {
+            $response = RolesPermission::removeRP($data); 
+            $response = Utils::msgAlerts($response,"Succesfully Remove!",$request->ajax());
+          }
         
-        // return $response;
+        return $response;
     }
 }

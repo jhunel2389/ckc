@@ -16,9 +16,21 @@ class RolesPermission extends Model
      */
     protected $table = 'roles_permission';
 
+    public $timestamps = true;
+
     public static function checkPermissions($permission='')
     {
     	return self::where('role_key',Auth::user()->role_key)->where('permission_key',$permission)->first();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public static function create(array $data)
+    {
+        return self::insert($data);
     }
 
     public static function getPermissionPerRole($role_key){
@@ -35,4 +47,8 @@ class RolesPermission extends Model
         }
         return $data;
     }   
+
+    public static function removeRP(array $data){
+        return self::where('role_key', $data['role_key'])->where('permission_key', $data['permission_key'])->delete();
+    }
 }

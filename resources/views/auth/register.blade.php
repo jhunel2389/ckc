@@ -83,6 +83,19 @@
           @enderror
         </div>
         <div class="input-group mb-3">
+          <input type="hidden" class="form-control" id="team" name="team" value="">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='btn-team'>
+            <span id="team_name">Select Team</span>
+          </button>
+          <div class="dropdown-menu" id='drp-team' disabled>
+          </div>
+          @error('team')
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+              </span>
+          @enderror
+        </div>
+        <div class="input-group mb-3">
           <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
@@ -133,5 +146,31 @@
 <script src="{{ asset('resources/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('resources/dist/js/adminlte.min.js')}}"></script>
+
+<script>
+  
+  function getTeams(){
+    $('#team').val('');
+    $.get("{{route('ajax.get-active-teams')}}", function(data, status){
+      if(status === 'success'){
+        $('#drp-team').empty();
+        if(data.length > 0){
+          $.each(data, function(i, item) {
+            $('#drp-team').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].team_name, 'onclick' : 'selectedTeams("'+data[i].id+'","'+data[i].team_name+'")'}));
+          }); 
+          $('#btn-team').removeAttr('disabled');
+        }
+        
+      }
+    });
+  }
+
+  function selectedTeams($id,$team_name){
+    $('#team_name').html($team_name);
+    $('#team').val($id);
+  }
+
+  getTeams();
+</script>
 </body>
 </html>

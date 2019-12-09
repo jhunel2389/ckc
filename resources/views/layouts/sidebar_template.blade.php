@@ -33,7 +33,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @if($utils::checkPermissions('view_users'))
+              @if($utils::checkPermissions('view_user_profile'))
               <li class="nav-item">
                 <a href="{{ url('/systemUsers') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_users')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>

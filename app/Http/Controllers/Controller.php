@@ -13,7 +13,7 @@ class Controller extends BaseController
 
     const TRUE = true;
     const FALSE = false;
-    const SUPERADMIND = 'admin_user';
+    const SUPERADMIND = 'superadmin';
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 2;
     const STATUS_DELETED = 0;

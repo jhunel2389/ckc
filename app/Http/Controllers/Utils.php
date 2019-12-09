@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\RolesPermission;
+use App\Teams;
 class Utils extends Controller
 {
 
     public static function checkPermissions($permission){
-    	$user_role = Auth::user()->role_key;
-    	if($user_role == self::SUPERADMIND){
+    	$username = Auth::user()->username;
+    	if($username == self::SUPERADMIND){
     		return self::TRUE;
     	} else {
     		$isHave = RolesPermission::checkPermissions($permission);
@@ -68,5 +69,9 @@ class Utils extends Controller
         {
             return response()->json($message_alert);
         }
+    }
+
+    public static function getActiveTeams(){
+        return Teams::getTeamList([self::STATUS_ACTIVE]);
     }
 }

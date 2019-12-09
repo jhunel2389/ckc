@@ -163,7 +163,6 @@
           $.post("{{route('ajax.update-role-permission')}}", { role_key: role_key, permission_key: permission_key, status: status , _token: "{{ csrf_token() }}" }, function(data, status){
             if(status === 'success'){
               alerts_float(data.alert_status,data.alert_msg,data.alert_class);
-              refreshAjaxCall();
             }
           })
           .fail(function(response) { 
