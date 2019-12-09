@@ -275,6 +275,7 @@
             {
                 processing: true,
                 serverSide: true,
+                autoWidth: false,
                 ajax: {
                   url: '{!! route('datatables.team-er') !!}',
                   type: 'GET',
