@@ -229,6 +229,7 @@
             {
                 processing: true,
                 serverSide: true,
+                autoWidth: false,
                 ajax: {
                   url: '{!! route('datatables.primary-tools') !!}',
                   type: 'GET',
@@ -251,6 +252,7 @@
             {
                 processing: true,
                 serverSide: true,
+                autoWidth: false,
                 ajax: {
                   url: '{!! route('datatables.secondary-tools') !!}',
                   type: 'GET',
