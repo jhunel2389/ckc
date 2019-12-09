@@ -111,6 +111,10 @@ class PermissionTableSeeder extends Seeder
             [
                 "permission_key" => "delete_employee_roles",
                 "description" => "System Employee Roles Delete",
+            ],
+            [
+                "permission_key" => "view_system_roles",
+                "description" => "System Roles View",
             ]
     	];
 

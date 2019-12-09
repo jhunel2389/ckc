@@ -41,6 +41,8 @@ Route::get('/systemEmployeeRoles', 'SystemController@employeeRoles')->name('syst
 Route::post('/addEmployeeRoles', 'SystemController@addEmployeeRoles')->name('addEmployeeRoles');
 Route::post('/updateEmployeeRoles', 'SystemController@updateEmployeeRoles')->name('updateEmployeeRoles');
 
+Route::get('/systemRoles', 'SystemController@systemRoles')->name('systemRoles');
+
 Route::get('/systemTools', 'SystemController@tools')->name('systemTools');
 Route::post('/addTool', 'SystemController@addTool')->name('addTool');
 Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');

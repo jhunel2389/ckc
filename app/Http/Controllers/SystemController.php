@@ -378,4 +378,24 @@ class SystemController extends Controller
         $list = EmployeeRoles::getEmployeeRoleByTeam([self::STATUS_ACTIVE],$request['team_id']);
         return $list;
     }
+
+    public function systemRoles(){
+
+        if(!Utils::permissionsViews('view_system_roles')){
+            return redirect(route('home'));
+        };
+
+        $list = Tools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+        
+        $data = array(
+            'title'     => 'System Roles',
+            'fav_title' => 'System Roles',
+            'side_bar'  => 'side_system',
+            'sub_bar'   => 'sub_sys_roles',
+            'utils'     => Utils::class,
+            'list' => $list
+        );
+        
+        return view('pages.system.system_roles')->with($data);
+    }
 }

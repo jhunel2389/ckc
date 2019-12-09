@@ -41,6 +41,14 @@
                 </a>
               </li>
               @endif
+              @if($utils::checkPermissions('view_system_roles'))
+              <li class="nav-item">
+                <a href="{{ url('/systemRoles') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_sys_roles')) ? 'active' : ''  }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>System Roles</p>
+                </a>
+              </li>
+              @endif
               @if($utils::checkPermissions('view_teams'))
               <li class="nav-item">
                 <a href="{{ url('/systemTeams') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_teams')) ? 'active' : ''  }}">
