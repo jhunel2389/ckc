@@ -425,13 +425,13 @@ class SystemController extends Controller
         $validator = $this->role_permission_ajax_validator($request->all())->validate();
 
         $data = array (
-            'er_id'          => $request['er_id'],
-            'team_id'   => $request['team_id']
+            'role_key'          => $request['er_id'],
+            'permission_key'   => $request['team_id']
         );
 
-        $response = TeamEmployeeRoles::create($data);
-        $response = Utils::msgAlerts($response,"Employee Role Succesfully Added!",$request->ajax());
+        // $response = TeamEmployeeRoles::create($data);
+        // $response = Utils::msgAlerts($response,"Employee Role Succesfully Added!",$request->ajax());
         
-        return $response;
+        // return $response;
     }
 }
