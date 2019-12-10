@@ -83,8 +83,8 @@
           @enderror
         </div>
         <div class="input-group mb-3">
-          <input type="hidden" class="form-control" id="team" name="team" value="">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='btn-team'>
+          <input type="hidden" class="form-control" id="team" name="team" value="{{ old('team') }}">
+          <button type="button" class="btn btn-primary btn-block dropdown-toggle @error('lastname') is-invalid @enderror" data-toggle="dropdown" id='btn-team'>
             <span id="team_name">Select Team</span>
           </button>
           <div class="dropdown-menu" id='drp-team' disabled>
@@ -96,8 +96,8 @@
           @enderror
         </div>
         <div class="input-group mb-3">
-          <input type="hidden" class="form-control" id="er_key" name="er_key" value="">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-er" disabled>
+          <input type="hidden" class="form-control" id="er_key" name="er_key" value="{{ old('er_key') }}">
+          <button type="button" class="btn btn-primary btn-block dropdown-toggle @error('er_key') is-invalid @enderror" data-toggle="dropdown" id="btn-er" disabled>
             <span id="er_name">Select Employee Role</span>
           </button>
           <div class="dropdown-menu" id="drp-er">
@@ -197,7 +197,7 @@
       }
     });
   } 
-  
+
   function selectER($er_id,$er_name){
     $('#er_key').val($er_id);
     $('#er_name').text($er_name);
