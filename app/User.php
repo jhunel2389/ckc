@@ -50,7 +50,7 @@ class User extends Authenticatable
     }
 
     public static function UserList(){
-        return self::join('roles', 'roles.role_key', '=', 'users.role_key')->select('users.*','roles.description as role_description')->whereNotIn('username', ["superadmin"])
+        return self::join('roles', 'roles.role_key', '=', 'users.role_key')->leftJoin('employee_roles', 'employee_roles.id', '=', 'users.employee_role_key')->select('users.*','roles.description as role_description','employee_roles.name as er_name')->whereNotIn('username', ["superadmin"])
             ->get();
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Tools;
+use App\UserTools;
+use App\UserTrainingTools;
 
 class ReportController extends Controller
 {
@@ -45,5 +47,13 @@ class ReportController extends Controller
 
     public function toolsSummaryNameReport(Request $request){
         return Datatables::of(Tools::toolsSummaryNameReport())->make(true);
+    }
+
+    public function trainingToolsSummaryReport(Request $request){
+        return Datatables::of(UserTrainingTools::toolsSummaryReport())->make(true);
+    }
+
+    public function trainingToolsSummaryNameReport(Request $request){
+        return Datatables::of(UserTrainingTools::toolsSummaryNameReport())->make(true);
     }
 }

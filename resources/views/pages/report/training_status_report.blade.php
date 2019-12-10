@@ -11,7 +11,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="training-summary-table" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                   <th>Tools</th>
@@ -20,28 +20,6 @@
                   <th>Completed</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                  <td>SQL</td>
-                  <td>10</td>
-                  <td>1</td>
-                  <td>4</td>
-                </tr>
-                <tr>
-                  <td>Informatica</td>
-                  <td>2</td>
-                  <td>4</td>
-                  <td>1</td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>Total:</th>
-                  <th>5</th>
-                  <th>5</th>
-                  <th>3</th>
-                </tr>
-                </tfoot>
               </table>
             </div>
             <!-- /.card-body -->
@@ -54,7 +32,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="training-summary-name-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Team</th>
@@ -107,18 +85,42 @@
 
     @section('custom_script')
       <script>
-        $(function () {
-          $(".table").DataTable();
-          // $("#example1").DataTable();
-          // $('#example2').DataTable({
-          //   "paging": true,
-          //   "lengthChange": false,
-          //   "searching": false,
-          //   "ordering": true,
-          //   "info": true,
-          //   "autoWidth": false,
-          // });
-        });
+        $("#training-summary-table").DataTable(
+          {
+              processing: true,
+              serverSide: true,
+              ajax: {
+                url: '{!! route('datatables.training-tools-summary-report') !!}',
+                type: 'GET',
+                data: function (d) {
+                }
+              },
+              columns: [
+                  { data: 'tool_name', name: 'tool_name' },
+                  { data: 'not_yet_started', name: 'not_yet_started' },
+                  { data: 'on_going', name: 'on_going' },
+                  { data: 'completed', name: 'completed' },
+              ]
+          });
+
+          // $("#training-summary-name-table").DataTable(
+          //   {
+          //       processing: true,
+          //       serverSide: true,
+          //       ajax: {
+          //         url: '{!! route('datatables.tools-summary-name-report') !!}',
+          //         type: 'GET',
+          //         data: function (d) {
+          //         }
+          //       },
+          //       columns: [
+          //           { data: 'name', name: 'name' },
+          //           { data: 'team', name: 'team' },
+          //           { data: 'employee_role', name: 'employee_role' },
+          //           { data: 'tool', name: 'tool' },
+          //           { data: 'rate', name: 'rate' }
+          //       ]
+          //   });
       </script>
     @endsection
 @endsection

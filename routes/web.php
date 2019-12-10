@@ -75,4 +75,6 @@ Route::post('deleteUserTools', 'ProfileController@deleteUserTools')->name('delet
 
 Route::get('tools-summary-report', 'ReportController@toolsSummaryReport')->name('datatables.tools-summary-report');
 Route::get('tools-summary-name-report', 'ReportController@toolsSummaryNameReport')->name('datatables.tools-summary-name-report');
+Route::get('training-tools-summary-report', 'ReportController@trainingToolsSummaryReport')->name('datatables.training-tools-summary-report');
+Route::get('training-tools-summary-name-report', 'ReportController@trainingToolsSummaryNameReport')->name('datatables.training-tools-summary-name-report');
 Route::get('system-permission-by-role', 'SystemController@getSystemPermissionByRole')->name('datatables.system-permission-by-role');

@@ -20,6 +20,7 @@
                   <th>Lastname</th>
                   <th>Email</th>
                   <th>System Role</th>
+                  <th>Employee Role</th>
                   <th>Team</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -35,6 +36,7 @@
                       <td>{{$value['lastname']}}</td>
                       <td>{{$value['email']}}</td>
                       <td>{{$value['role_description']}}</td>
+                      <td>{{($value['er_name'])?$value['er_name']:'No Data Yet'}}</td>
                       <td>{{$value['team']}}</td>
                       <td>{{$utils::statusIntToString($value['status'])}}</td>
                       <td>
