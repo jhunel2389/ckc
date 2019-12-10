@@ -61,6 +61,7 @@ Route::post('add-team-er-data', 'SystemController@addTeamsERData')->name('ajax.a
 Route::post('delete-team-er-data', 'SystemController@deleteTeamERData')->name('ajax.delete-team-er');
 Route::post('update-role-permission', 'SystemController@updateRolePermission')->name('ajax.update-role-permission');
 Route::get('get-active-teams', 'AjaxController@getActiveTeams')->name('ajax.get-active-teams');
+Route::get('get-er-by-team', 'AjaxController@getEmployeeRoleByTeam')->name('ajax.get-er-by-team');
 
 Route::post('addUserPrimTools', 'ProfileController@addUserPrimTools')->name('addUserPrimTools');
 

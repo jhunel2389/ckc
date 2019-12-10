@@ -96,6 +96,19 @@
           @enderror
         </div>
         <div class="input-group mb-3">
+          <input type="hidden" class="form-control" id="er_key" name="er_key" value="">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-er" disabled>
+            <span id="er_name">Select Employee Role</span>
+          </button>
+          <div class="dropdown-menu" id="drp-er">
+          </div>
+          @error('er_key')
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+              </span>
+          @enderror
+        </div>
+        <div class="input-group mb-3">
           <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
@@ -168,6 +181,26 @@
   function selectedTeams($id,$team_name){
     $('#team_name').html($team_name);
     $('#team').val($id);
+    getEmployeeRole($id);
+  }
+
+  function getEmployeeRole($team_id){
+    $.get("{{route('ajax.get-er-by-team')}}",{team_id: $('#team').val()}, function(data, status){
+      if(status === 'success'){
+        $('#drp-er').empty();
+        if(data.length > 0){
+          $.each(data, function(i, item) {
+            $('#drp-er').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].name, 'onclick' : 'selectER("'+data[i].id+'","'+data[i].name+'")'}));
+          }); 
+          $('#btn-er').removeAttr('disabled');
+        }
+      }
+    });
+  } 
+  
+  function selectER($er_id,$er_name){
+    $('#er_key').val($er_id);
+    $('#er_name').text($er_name);
   }
 
   getTeams();
