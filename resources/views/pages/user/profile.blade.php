@@ -317,7 +317,7 @@
                             <label>Current Team:</label> <span id="team_name" style="color: {{($user_info['team_name'])?'':'red'}};">{{($user_info['team_name'])?$user_info['team_name']:"No Data"}}</span>
                           </div>
                           <div class="col-md-6 text-right">
-                            <input type="hidden" class="form-control" id="team" name="team" value="">
+                            <input type="hidden" class="form-control" id="team" name="team" value="{{$user_info['team_id']}}">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='btn-team'>
                               Select Team
                             </button>
@@ -395,7 +395,7 @@
         $(function () {
           $(".table").DataTable();
         });
-
+        
         $('#submitBtn').click(function() {
              $('#modal_header').text("Confirmation");
              $('#modal_message').text("Are you sure you want to procced?");
@@ -434,7 +434,6 @@
         }
 
         function clearHiddenInput(){
-          $('#team').val('');
           $('#role_key').val('');
           $('#er_key').val('');
           
@@ -456,6 +455,7 @@
 
         function openEditModal(){
           $('#btn-er').attr('disabled','');
+          getEmployeeRole($('#team').val());
         }
 
         function selectPrimeTools($tool_id,$name){
