@@ -46,10 +46,14 @@ Route::get('/systemRoles', 'SystemController@systemRoles')->name('systemRoles');
 Route::get('/systemTools', 'SystemController@tools')->name('systemTools');
 Route::post('/addTool', 'SystemController@addTool')->name('addTool');
 Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');
-Route::get('/getTools', 'SystemController@getTools')->name('getTools');
+Route::get('/getToolsPerER', 'SystemController@getToolsPerER')->name('getToolsPerER');
 Route::get('/getTeams', 'SystemController@getTeams')->name('getTeams');
 Route::get('/getEmployeeRoleByTeam', 'SystemController@getEmployeeRoleByTeam')->name('getEmployeeRoleByTeam');
 
+Route::get('/getToolsPerTraining', 'SystemController@getToolsPerTraining')->name('getToolsPerTraining');
+Route::get('get-training-tools-data', 'SystemController@trainingToolsData')->name('datatables.training-tools');
+Route::post('add-training-tools-data', 'SystemController@addTrainingToolsData')->name('ajax.add-training-tools');
+Route::post('delete-training-tools-data', 'SystemController@deleteTrainingToolsData')->name('ajax.delete-training-tools');
 
 Route::get('get-primary-tools-data', 'SystemController@primaryToolsData')->name('datatables.primary-tools');
 Route::get('get-secondary-tools-data', 'SystemController@secondaryToolsData')->name('datatables.secondary-tools');

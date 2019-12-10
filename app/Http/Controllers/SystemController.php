@@ -15,6 +15,7 @@ use App\EmployeeRoles;
 use App\EmployeeRolesTools;
 use App\TeamEmployeeRoles;
 use App\RolesPermission;
+use App\TrainingTools;
 
 class SystemController extends Controller
 {
@@ -268,11 +269,15 @@ class SystemController extends Controller
         return redirect()->route('systemEmployeeRoles');
     }
 
-    public function getTools(Request $request){
+    public function getToolsPerER(Request $request){
         $list = Tools::getAvailableToolsPerER([self::STATUS_ACTIVE],$request['er_id']);
         return $list;
     }
 
+    public function getToolsPerTraining(Request $request){
+        $list = Tools::getAvailableToolsPerTraining([self::STATUS_ACTIVE],$request['er_id']);
+        return $list;
+    }
 
     public function primaryToolsData(Request $request){
         $data = array (
@@ -436,6 +441,48 @@ class SystemController extends Controller
             $response = RolesPermission::removeRP($data); 
             $response = Utils::msgAlerts($response,"Succesfully Remove!",$request->ajax());
           }
+        
+        return $response;
+    }
+
+    public function trainingToolsData(Request $request){
+        $data = array (
+            'er_id'          => $request['er_id']
+        );
+        return Datatables::of(TrainingTools::getListByER($data))->make(true);
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function training_tools_ajax_validator(array $data)
+    {
+        return Validator::make($data, [
+            'training_er_id' => ['required', 'string', 'max:255'],
+            'training_tool_id' => ['required', 'string', 'max:255']
+        ]);
+    }
+
+    public function addTrainingToolsData(Request $request){
+        $validator = $this->training_tools_ajax_validator($request->all())->validate();
+
+        $data = array (
+            'er_id'          => $request['training_er_id'],
+            'tool_id'   => $request['training_tool_id']
+        );
+
+        $response = TrainingTools::create($data);
+        $response = Utils::msgAlerts($response,"Training Succesfully Added!",$request->ajax());
+        
+        return $response;
+    }
+
+    public function deleteTrainingToolsData(Request $request){
+        $response = TrainingTools::destroy($request['training_tool_id']);
+        $response = Utils::msgAlerts($response,"Training Succesfully Remove!",$request->ajax());
         
         return $response;
     }

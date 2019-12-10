@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\EmployeeRolesTools;
 use DB;
 use App\UserTools;
+use App\TrainingTools;
 class Tools extends Model
 {
     /**
@@ -67,5 +68,11 @@ class Tools extends Model
         $data = UserTools::join('users','users.id','=','user_tools.user_id')->join('tools','tools.id','=','user_tools.tool_id')->join('teams','teams.id','=','users.team')->join('employee_roles','employee_roles.id','=','users.employee_role_key')->select('users.firstname as firstname',DB::raw('CONCAT(users.firstname," ",users.lastname) as name'),'employee_roles.name as employee_role','teams.team_name as team','tools.name as tool','user_tools.proficiency_rate as rate')->get();
         
         return $data;
+    }
+
+    public static function getAvailableToolsPerTraining(array $status,$er_id = null)
+    {   
+        $tool_by_er_id = TrainingTools::where('er_id', '=', $er_id)->pluck('tool_id')->toArray();
+        return self::whereIn('status', $status)->whereNotIn('id',$tool_by_er_id)->get();
     }
 }

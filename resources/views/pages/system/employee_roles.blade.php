@@ -60,7 +60,10 @@
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="status_id" name="status_id">
                           @endif
+                          @if($utils::checkPermissions('edit_employee_roles'))
                           <button type="button" class="btn btn-xs" onclick="openTools('{{$value['id']}}')"><i class="fa fa-tools" title="Tools"></i></button>
+                          <button type="button" class="btn btn-xs" onclick="openTraining('{{$value['id']}}')"><i class="fa fa-certificate" title="Training"></i></button>
+                          @endif
                         </form>
                       </td>
                     </tr>
@@ -217,6 +220,71 @@
       </div>
       <!-- END MODAL -->
     @endif
+    @if($utils::checkPermissions('edit_employee_roles'))
+      <!-- ADD MODAL -->
+      <div class="modal fade" id="modal-training">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="modal-content-training">
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-h4">Tools Management</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+                <div class="modal-body">
+                    <!-- form start -->
+                  <div class="card-body">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label>Select Tools:</label>
+                          <span class="span-modal" id="training_tool_name"></span>
+                          <input type="hidden" id="training_tool_id" name="training_tool_id">
+                          <input type="hidden" id="training_er_id" name="training_er_id">
+                          <br>
+                          <button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="btn-training-tools" disabled>
+                            Tools
+                          </button>
+                          <div class="dropdown-menu" id="drp-training-tools">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <br>
+                          <button type="button" class="btn btn-block btn-success" onclick="addTraining()">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <span>Primary Tools</span>
+                          </h3>
+                        </div>
+                        <div class="card-body">
+                          <table id="training-table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Action</th>
+                            </tr>
+                            </thead>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                      <!-- /.card-body -->
+                <div class="modal-footer justify-content-between">
+                </div>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+      </div>
+      <!-- END MODAL -->
+    @endif
     @section('custom_script')
       <script>
         $(function () {
@@ -307,7 +375,7 @@
         }
 
         function getTools(){
-          $.get("{{route('getTools')}}",{er_id: $('#er_id').val()}, function(data, status){
+          $.get("{{route('getToolsPerER')}}",{er_id: $('#er_id').val()}, function(data, status){
             if(status === 'success'){
               $('#drp-tools').empty();
               if(data.length > 0){
@@ -321,7 +389,23 @@
           });
         }
 
+        function getTrainingTools(){
+          $.get("{{route('getToolsPerTraining')}}",{er_id: $('#er_id').val()}, function(data, status){
+            if(status === 'success'){
+              $('#drp-training-tools').empty();
+              if(data.length > 0){
+                $.each(data, function(i, item) {
+                  $('#drp-training-tools').append($('<a />' , { 'class' : 'dropdown-item' , 'href' : '#', 'text' : data[i].name, 'onclick' : 'selectTrainingTools("'+data[i].id+'","'+data[i].name+'")'}));
+                }); 
+                $('#btn-training-tools').removeAttr('disabled');
+              }
+              
+            }
+          });
+        }
+
         function openTools(er_id){
+          $('#btn-tools').attr('disabled','');
           $('#tool_id').val('');
           $('#tool_name').html('');
           $('#cat_id').val('');
@@ -332,9 +416,24 @@
           refreshAjaxCall();
         }
 
+        function openTraining(er_id){
+          $('#btn-training-tools').attr('disabled','');
+          $('#training_tool_id').val('');
+          $('#training_tool_name').html('');
+          $('#training_er_id').html('');
+          $('#training_er_id').val(er_id);
+          $('#modal-training').modal();
+          refreshTrainingAjaxCall();
+        }
+
         function selectTools(tool_id,name){
           $('#tool_id').val(tool_id);
           $('#tool_name').text(name);
+        }
+
+        function selectTrainingTools(tool_id,name){
+          $('#training_tool_id').val(tool_id);
+          $('#training_tool_name').text(name);
         }
 
         function selectCat(id,name){
@@ -358,6 +457,34 @@
           addToolsER();
         }
 
+        function addTraining(){
+          addToolsTraining();
+        }
+
+        function addToolsTraining(){
+          $.post("{{route('ajax.add-training-tools')}}", { training_er_id: $('#training_er_id').val(), training_tool_id: $('#training_tool_id').val(), _token: "{{ csrf_token() }}" }, function(data, status){
+            if(status === 'success'){
+              alerts_float(data.alert_status,data.alert_msg,data.alert_class);
+              refreshTrainingAjaxCall();
+            }
+          })
+          .fail(function(response) { 
+            alerts_float('Error',"All fields are required!",'bg-danger');
+          });
+        }
+
+        function removeTrainingTools(id){
+          $.post("{{route('ajax.delete-training-tools')}}", { training_tool_id: id, _token: "{{ csrf_token() }}" }, function(data, status){
+            if(status === 'success'){
+              alerts_float(data.alert_status,data.alert_msg,data.alert_class);
+              refreshTrainingAjaxCall();
+            }
+          })
+          .fail(function(response) { 
+            alerts_float('Error',"Error Occur. Please try again!",'bg-danger');
+          });
+        }
+
         function refreshAjaxCall(){
           $('#modal-content-tools').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
           $('#tool_id').val('');
@@ -367,6 +494,36 @@
           getTools();
           loadPrimaryToolsTable();
           loadSecondaryToolsTable();
+        }
+
+        function refreshTrainingAjaxCall(){
+          $('#modal-content-training').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
+          $('#training_tool_id').val('');
+          $('#training_tool_name').html('');
+          getTrainingTools();
+          loadTrainingToolsTable()
+        }
+        function loadTrainingToolsTable() {
+          $("#training-table").DataTable().destroy();
+          $("#training-table").DataTable(
+            {
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                ajax: {
+                  url: '{!! route('datatables.training-tools') !!}',
+                  type: 'GET',
+                  data: function (d) {
+                    d.er_id = $('#training_er_id').val();;
+                  }
+                },
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'id', render: function (dataField) {
+                     return '<button type="button" class="btn btn-xs" onclick="removeTrainingTools('+dataField+')"><i class="fa fa-trash" title="Tools"></i></button>'; }
+                    }
+                ]
+            });
         }
         $(document).ajaxStop(function() {
           $('.overlay').remove();
