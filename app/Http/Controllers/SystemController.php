@@ -470,8 +470,9 @@ class SystemController extends Controller
         $validator = $this->training_tools_ajax_validator($request->all())->validate();
 
         $data = array (
-            'er_id'          => $request['training_er_id'],
-            'tool_id'   => $request['training_tool_id']
+            'er_id'         => $request['training_er_id'],
+            'tool_id'       => $request['training_tool_id'],
+            'link' => $request['training_link']
         );
 
         $response = TrainingTools::create($data);

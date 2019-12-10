@@ -42,7 +42,7 @@
                   <th>Team</th>
                   <th>Employee Role</th>
                   <th>Tool</th>
-                  <th>Rate</th>
+                  <th>Proficiency</th>
                 </tr>
                 </thead>
               </table>

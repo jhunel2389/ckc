@@ -25,6 +25,6 @@ class TrainingTools extends Model
 
     public static function getListByER($data)
     {
-        return self::leftJoin('tools', 'tools.id', '=', 'training_tools.tool_id')->select('training_tools.id as id','tools.name as name', 'tools.id as tool_id')->where('training_tools.er_id', $data['er_id'])->get();
+        return self::leftJoin('tools', 'tools.id', '=', 'training_tools.tool_id')->select('training_tools.id as id','tools.name as name', 'tools.id as tool_id', 'training_tools.link as link')->where('training_tools.er_id', $data['er_id'])->get();
     }
 }

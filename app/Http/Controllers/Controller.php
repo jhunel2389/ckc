@@ -19,4 +19,8 @@ class Controller extends BaseController
     const STATUS_DELETED = 0;
     const PRIMARY_TOOLS = 1;
     const SECONDARY_TOOLS = 2;
+
+    const NOT_YET_STARTED = 1;
+    const ON_GOING = 2;
+    const COMPLETED = 3;
 }

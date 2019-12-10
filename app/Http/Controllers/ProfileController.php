@@ -10,6 +10,7 @@ use App\Teams;
 use App\Roles;
 use App\EmployeeRolesTools;
 use App\UserTools;
+use App\UserTrainingTools;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -45,6 +46,8 @@ class ProfileController extends Controller
 
         $secondary_tools_list = UserTools::getUserToolList($id,self::SECONDARY_TOOLS,$user_info['employee_role_key']);
         
+        $training_tools_list = UserTrainingTools::getUserTrainingToolList($id,$user_info['employee_role_key'],$user_info['team']);
+
         $data = array(
             'title'                 => 'Profile',
             'fav_title'             => 'CKC | Profile',
@@ -56,7 +59,8 @@ class ProfileController extends Controller
             'primary_tools'         => $primary_tools,
             'primary_tools_list'    => $primary_tools_list,
             'secondary_tools'       => $secondary_tools,
-            'secondary_tools_list'  => $secondary_tools_list
+            'secondary_tools_list'  => $secondary_tools_list,
+            'training_tools_list'   => $training_tools_list
         );
         //var_dump($user_info);die();
         return view('pages.user.profile')->with($data);
@@ -187,6 +191,62 @@ class ProfileController extends Controller
         $response = UserTools::destroy($request['user_tool_id']);
         $response = Utils::msgAlerts($response);
         
+        return redirect()->back();
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function user_training_tools_validator(array $data)
+    {
+        return Validator::make($data, [
+            'user_id' => ['required', 'string', 'max:255'],
+            'tool_id' => ['required', 'string', 'max:255'],
+            'action_event' => ['required', 'string', 'max:255']
+        ]);
+    }
+
+    public function updateStatusTrainingTools(Request $request){
+        $validator = $this->user_training_tools_validator($request->all())->validate();
+
+        $user_info = User::UserInfo($request['user_id']);
+        
+
+        if(!empty($user_info)){
+            $data = array (
+                    'user_id'   => (int)$user_info['id'],
+                    'tool_id'   => (int)$request['tool_id'],
+                    'er_id'     => (int)$user_info['employee_role_key'],
+                    'status'    => (int)$request['action_event']
+                );
+            $userTrainingToolInfo = UserTrainingTools::getInfo($data);
+            switch ($request['action_event']) {
+                case UserTrainingTools::ON_GOING:
+                    if(empty($userTrainingToolInfo)){
+                        $response =   UserTrainingTools::create($data);
+                    } else {
+                        $response =   UserTrainingTools::updateData($userTrainingToolInfo['id'],$data);
+                    }
+                    break;
+                case UserTrainingTools::COMPLETED:
+                    $response =   UserTrainingTools::updateData($userTrainingToolInfo['id'],$data);
+                    break;
+                case UserTrainingTools::NOT_YET_STARTED:
+                    $response =   UserTrainingTools::destroy($userTrainingToolInfo['id']);
+                    break;
+                default:
+                    $response = null;
+                    break;
+            }
+           
+        }
+        
+        
+        $response = Utils::msgAlerts($response);
+
         return redirect()->back();
     }
 }

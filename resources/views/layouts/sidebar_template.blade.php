@@ -49,11 +49,11 @@
                 </a>
               </li>
               @endif
-              @if($utils::checkPermissions('view_teams'))
+              @if($utils::checkPermissions('view_tools'))
               <li class="nav-item">
-                <a href="{{ url('/systemTeams') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_teams')) ? 'active' : ''  }}">
+                <a href="{{ url('/systemTools') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_tools')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Teams</p>
+                  <p>Tools</p>
                 </a>
               </li>
               @endif
@@ -65,11 +65,11 @@
                 </a>
               </li>
               @endif
-              @if($utils::checkPermissions('view_tools'))
+              @if($utils::checkPermissions('view_teams'))
               <li class="nav-item">
-                <a href="{{ url('/systemTools') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_tools')) ? 'active' : ''  }}">
+                <a href="{{ url('/systemTeams') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_teams')) ? 'active' : ''  }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Tools</p>
+                  <p>Teams</p>
                 </a>
               </li>
               @endif

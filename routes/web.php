@@ -31,6 +31,7 @@ Route::get('/userProfile/{id}', 'ProfileController@userProfile')->name('userProf
 // ]]);
 
 Route::post('/editProfile', 'ProfileController@edit')->name('editProfile');
+Route::post('updateStatusTrainingTools', 'ProfileController@updateStatusTrainingTools')->name('updateStatusTrainingTools');
 
 Route::get('/systemUsers', 'SystemController@users')->name('systemUsers');
 Route::get('/systemTeams', 'SystemController@teams')->name('systemTeams');

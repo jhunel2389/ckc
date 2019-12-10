@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CKC | Registration</title>
+  <title>KC | Registration</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,7 +21,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <a href="{{ url('/') }}"><b>Cigna</b>CK</a>
+    <a href="{{ url('/') }}">Knowledge Center</a>
   </div>
 
   <div class="card">

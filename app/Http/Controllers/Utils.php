@@ -47,6 +47,23 @@ class Utils extends Controller
         }
     }
 
+    public static function trainingStatusIntToString($statusInt){
+        switch ($statusInt) {
+            case self::NOT_YET_STARTED:
+                return "Not Yest Started";
+                break;
+            case self::ON_GOING:
+                return "On Going";
+                break;
+            case self::COMPLETED:
+                return "Completed";
+                break;
+            default:
+                return $statusInt;
+                break;
+        }
+    }
+
     public static function msgAlerts($data,$message = null,$ajax_request = false){
         if($data){
             $message_alert = array(

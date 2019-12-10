@@ -254,6 +254,87 @@
               <!-- /.card-body -->
             </div>
             <!-- end table -->
+            <!-- Training Tools Table-->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Training Tools</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="secondary-table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Tools</th>
+                  <th>Status</th>
+                  <th>Link</th>
+                  @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                  <th>Action</th>
+                  @endif
+                </tr>
+                </thead>
+                <tbody>
+                  @if(!empty($training_tools_list))
+                    @foreach($training_tools_list as $key => $value)
+                      <tr>
+                        <td>{{$value['name']}}</td>
+                        <td>{{$utils::trainingStatusIntToString($value['status'])}}</i></td>
+                        @if(!empty($value['link']))
+                        <td><a href="{{$value['link']}}" target="_blank">Open</a></td>
+                        @else
+                        <td>No Link Available</a></td>
+                        @endif
+                        @if($user_info['id'] == Auth::User()->id || $utils::checkPermissions('edit_user_profile'))
+                          
+                          <td>
+                            <div class="row">
+                            
+                            @if($value['status'] == 1)
+                            <div class="col-md-4">
+                            <form action="{{ route('updateStatusTrainingTools') }}" method="POST" id="formUpdateStatus">
+                              @csrf
+                              <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
+                              <input type="hidden" id="tool_id" name="tool_id" value="{{$value['tool_id']}}">
+                              <input type="hidden" id="action_event" name="action_event" value="2">
+                              <button type="submit" class="btn btn-xs"><i class="fa fa-play" title="On Going"></i></button>
+                            </form>
+                            </div>  
+                            @endif
+                            @if($value['status'] == 2)
+                            <div class="col-md-4">
+                            <form action="{{ route('updateStatusTrainingTools') }}" method="POST" id="formUpdateStatus">
+                              @csrf
+                              <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
+                              <input type="hidden" id="tool_id" name="tool_id" value="{{$value['tool_id']}}">
+                              <input type="hidden" id="action_event" name="action_event" value="3">
+                              <button type="submit" class="btn btn-xs"><i class="fa fa-flag-checkered" title="Complete"></i></button>
+                            </form>
+                          </div>
+                            @endif
+                            <div class="col-md-4">
+                            <form action="{{ route('updateStatusTrainingTools') }}" method="POST" id="formUpdateStatus">
+                              @csrf
+                              <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
+                              <input type="hidden" id="tool_id" name="tool_id" value="{{$value['tool_id']}}">
+                              <input type="hidden" id="action_event" name="action_event" value="1">
+                              <button type="submit" class="btn btn-xs"><i class="fa fa-trash" title="Remove"></i></button>
+                            </form>
+                          </div>
+                            </div>
+                          </td>
+                        @endif
+                      </tr>
+                    @endforeach
+                  @endif
+                </tbody>
+                <tfoot>
+                <tr>
+                </tr>
+                </tfoot>
+              </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- end table -->
           </div>
         </div>
         <!-- /.row -->

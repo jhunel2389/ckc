@@ -249,6 +249,10 @@
                           </div>
                         </div>
                         <div class="col-md-4">
+                          <label>Link:</label>
+                          <input type="text" id="training_link" name="training_link">
+                        </div>
+                        <div class="col-md-4">
                           <br>
                           <button type="button" class="btn btn-block btn-success" onclick="addTraining()">Add</button>
                         </div>
@@ -258,7 +262,7 @@
                       <div class="card">
                         <div class="card-header">
                           <h3 class="card-title">
-                            <span>Primary Tools</span>
+                            <span>Training Tools</span>
                           </h3>
                         </div>
                         <div class="card-body">
@@ -266,6 +270,7 @@
                             <thead>
                             <tr>
                               <th>Name</th>
+                              <th>Link</th>
                               <th>Action</th>
                             </tr>
                             </thead>
@@ -390,7 +395,7 @@
         }
 
         function getTrainingTools(){
-          $.get("{{route('getToolsPerTraining')}}",{er_id: $('#er_id').val()}, function(data, status){
+          $.get("{{route('getToolsPerTraining')}}",{er_id: $('#training_er_id').val()}, function(data, status){
             if(status === 'success'){
               $('#drp-training-tools').empty();
               if(data.length > 0){
@@ -419,6 +424,7 @@
         function openTraining(er_id){
           $('#btn-training-tools').attr('disabled','');
           $('#training_tool_id').val('');
+          $('#training_link').val('');
           $('#training_tool_name').html('');
           $('#training_er_id').html('');
           $('#training_er_id').val(er_id);
@@ -462,7 +468,7 @@
         }
 
         function addToolsTraining(){
-          $.post("{{route('ajax.add-training-tools')}}", { training_er_id: $('#training_er_id').val(), training_tool_id: $('#training_tool_id').val(), _token: "{{ csrf_token() }}" }, function(data, status){
+          $.post("{{route('ajax.add-training-tools')}}", { training_er_id: $('#training_er_id').val(), training_tool_id: $('#training_tool_id').val(), training_link: $('#training_link').val(), _token: "{{ csrf_token() }}" }, function(data, status){
             if(status === 'success'){
               alerts_float(data.alert_status,data.alert_msg,data.alert_class);
               refreshTrainingAjaxCall();
@@ -498,6 +504,7 @@
 
         function refreshTrainingAjaxCall(){
           $('#modal-content-training').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
+          $('#training_link').val('');
           $('#training_tool_id').val('');
           $('#training_tool_name').html('');
           getTrainingTools();
@@ -519,6 +526,14 @@
                 },
                 columns: [
                     { data: 'name', name: 'name' },
+                    { data: 'link', render: function (dataField) {
+                      if(dataField){
+                        return '<a href="'+dataField+'" target="_blank">Open</a>';
+                      } else {
+                        return 'No Link Available';
+                      }
+                    }
+                    },
                     { data: 'id', render: function (dataField) {
                      return '<button type="button" class="btn btn-xs" onclick="removeTrainingTools('+dataField+')"><i class="fa fa-trash" title="Tools"></i></button>'; }
                     }
