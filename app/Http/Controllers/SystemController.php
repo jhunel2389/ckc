@@ -482,7 +482,7 @@ class SystemController extends Controller
     }
 
     public function deleteTrainingToolsData(Request $request){
-        $response = TrainingTools::destroy($request['training_tool_id']);
+        $response = EmployeeRolesTrainingTools::destroy($request['training_tool_id']);
         $response = Utils::msgAlerts($response,"Training Succesfully Remove!",$request->ajax());
         
         return $response;
