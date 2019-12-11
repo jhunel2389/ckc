@@ -34,7 +34,7 @@
 
           @if($utils::checkPermissions('view_system'))
           <li class="nav-item has-treeview {{ (isset($side_bar) && isset($sub_bar) && $side_bar == 'side_system' ) ? 'menu-open' : ''  }}">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link {{ (isset($side_bar) && ($side_bar == 'side_system')) ? 'active' : ''  }}">
               <i class="nav-icon fas fa-tools"></i>
               <p>
                 System

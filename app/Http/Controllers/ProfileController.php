@@ -206,6 +206,7 @@ class ProfileController extends Controller
         return Validator::make($data, [
             'user_id' => ['required', 'string', 'max:255'],
             'tool_id' => ['required', 'string', 'max:255'],
+            'team' => ['required', 'string', 'max:255'],
             'action_event' => ['required', 'string', 'max:255']
         ]);
     }
@@ -221,6 +222,7 @@ class ProfileController extends Controller
                     'user_id'   => (int)$user_info['id'],
                     'tool_id'   => (int)$request['tool_id'],
                     'er_id'     => (int)$user_info['employee_role_key'],
+                    'team_id'     => (int)$user_info['team'],
                     'status'    => (int)$request['action_event']
                 );
             $userTrainingToolInfo = UserTrainingTools::getInfo($data);

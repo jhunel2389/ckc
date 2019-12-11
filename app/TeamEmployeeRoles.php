@@ -32,4 +32,8 @@ class TeamEmployeeRoles extends Model
     {
         return self::leftJoin('employee_roles', 'employee_roles.id', '=', 'teams_employee_roles.er_id')->select('teams_employee_roles.id as id','employee_roles.name as name')->where('teams_employee_roles.team_id', $data['team_id'])->get();
     }
+    public static function getListByER($er_id)
+    {
+        return self::leftJoin('employee_roles', 'employee_roles.id', '=', 'teams_employee_roles.er_id')->select('teams_employee_roles.team_id as team_id','employee_roles.name as name')->where('teams_employee_roles.er_id', $er_id)->get();
+    }
 }

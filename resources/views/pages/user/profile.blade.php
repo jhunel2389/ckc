@@ -294,6 +294,7 @@
                               @csrf
                               <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
                               <input type="hidden" id="tool_id" name="tool_id" value="{{$value['tool_id']}}">
+                              <input type="hidden" id="team" name="team" value="{{$user_info['team']}}">
                               <input type="hidden" id="action_event" name="action_event" value="2">
                               <button type="submit" class="btn btn-xs"><i class="fa fa-play" title="On Going"></i></button>
                             </form>
@@ -305,6 +306,7 @@
                               @csrf
                               <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
                               <input type="hidden" id="tool_id" name="tool_id" value="{{$value['tool_id']}}">
+                              <input type="hidden" id="team" name="team" value="{{$user_info['team']}}">
                               <input type="hidden" id="action_event" name="action_event" value="3">
                               <button type="submit" class="btn btn-xs"><i class="fa fa-flag-checkered" title="Complete"></i></button>
                             </form>
@@ -315,6 +317,7 @@
                               @csrf
                               <input type="hidden" id="user_id" name="user_id" value="{{$user_info['id']}}">
                               <input type="hidden" id="tool_id" name="tool_id" value="{{$value['tool_id']}}">
+                              <input type="hidden" id="team" name="team" value="{{$user_info['team']}}">
                               <input type="hidden" id="action_event" name="action_event" value="1">
                               <button type="submit" class="btn btn-xs"><i class="fa fa-trash" title="Remove"></i></button>
                             </form>
