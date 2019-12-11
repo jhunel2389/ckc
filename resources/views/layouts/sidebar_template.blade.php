@@ -82,6 +82,14 @@
                 </a>
               </li>
               @endif
+              @if($utils::checkPermissions('view_training_tools'))
+              <li class="nav-item">
+                <a href="{{ url('/systemTrainingTools') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_training')) ? 'active' : ''  }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Training</p>
+                </a>
+              </li>
+              @endif
             </ul>
           </li>
           @endif

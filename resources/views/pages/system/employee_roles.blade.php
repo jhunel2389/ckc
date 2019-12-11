@@ -249,10 +249,6 @@
                           </div>
                         </div>
                         <div class="col-md-4">
-                          <label>Link:</label>
-                          <input type="text" id="training_link" name="training_link">
-                        </div>
-                        <div class="col-md-4">
                           <br>
                           <button type="button" class="btn btn-block btn-success" onclick="addTraining()">Add</button>
                         </div>
@@ -424,7 +420,6 @@
         function openTraining(er_id){
           $('#btn-training-tools').attr('disabled','');
           $('#training_tool_id').val('');
-          $('#training_link').val('');
           $('#training_tool_name').html('');
           $('#training_er_id').html('');
           $('#training_er_id').val(er_id);
@@ -468,7 +463,7 @@
         }
 
         function addToolsTraining(){
-          $.post("{{route('ajax.add-training-tools')}}", { training_er_id: $('#training_er_id').val(), training_tool_id: $('#training_tool_id').val(), training_link: $('#training_link').val(), _token: "{{ csrf_token() }}" }, function(data, status){
+          $.post("{{route('ajax.add-training-tools')}}", { training_er_id: $('#training_er_id').val(), training_tool_id: $('#training_tool_id').val(), _token: "{{ csrf_token() }}" }, function(data, status){
             if(status === 'success'){
               alerts_float(data.alert_status,data.alert_msg,data.alert_class);
               refreshTrainingAjaxCall();
@@ -504,7 +499,6 @@
 
         function refreshTrainingAjaxCall(){
           $('#modal-content-training').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
-          $('#training_link').val('');
           $('#training_tool_id').val('');
           $('#training_tool_name').html('');
           getTrainingTools();

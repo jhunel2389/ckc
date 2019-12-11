@@ -47,6 +47,11 @@ Route::get('/systemRoles', 'SystemController@systemRoles')->name('systemRoles');
 Route::get('/systemTools', 'SystemController@tools')->name('systemTools');
 Route::post('/addTool', 'SystemController@addTool')->name('addTool');
 Route::post('/updateTool', 'SystemController@updateTool')->name('updateTool');
+
+Route::get('/systemTrainingTools', 'SystemController@trainingTools')->name('systemTrainingTools');
+Route::post('/addTrainingTool', 'SystemController@addTrainingTool')->name('addTrainingTool');
+Route::post('/updateTrainingTool', 'SystemController@updateTrainingTool')->name('updateTrainingTool');
+
 Route::get('/getToolsPerER', 'SystemController@getToolsPerER')->name('getToolsPerER');
 Route::get('/getTeams', 'SystemController@getTeams')->name('getTeams');
 Route::get('/getEmployeeRoleByTeam', 'SystemController@getEmployeeRoleByTeam')->name('getEmployeeRoleByTeam');

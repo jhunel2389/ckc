@@ -119,6 +119,26 @@ class PermissionTableSeeder extends Seeder
             [
                 "permission_key" => "edit_system_roles",
                 "description" => "System Roles Edit",
+            ],
+            [
+                "permission_key" => "view_training_tools",
+                "description" => "View Traing Tools",
+            ],
+            [
+                "permission_key" => "add_training_tools",
+                "description" => "System Training Tools Add",
+            ],
+            [
+                "permission_key" => "edit_training_tools",
+                "description" => "System Training Tools Edit",
+            ],
+            [
+                "permission_key" => "disable_training_tools",
+                "description" => "System Training Tools Disable",
+            ],
+            [
+                "permission_key" => "delete_training_tools",
+                "description" => "System Training Tools Delete",
             ]
     	];
 

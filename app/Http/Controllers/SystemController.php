@@ -16,6 +16,7 @@ use App\EmployeeRolesTools;
 use App\TeamEmployeeRoles;
 use App\RolesPermission;
 use App\TrainingTools;
+use App\EmployeeRolesTrainingTools;
 
 class SystemController extends Controller
 {
@@ -275,7 +276,7 @@ class SystemController extends Controller
     }
 
     public function getToolsPerTraining(Request $request){
-        $list = Tools::getAvailableToolsPerTraining([self::STATUS_ACTIVE],$request['er_id']);
+        $list = TrainingTools::getAvailableToolsPerTraining([self::STATUS_ACTIVE],$request['er_id']);
         return $list;
     }
 
@@ -449,7 +450,7 @@ class SystemController extends Controller
         $data = array (
             'er_id'          => $request['er_id']
         );
-        return Datatables::of(TrainingTools::getListByER($data))->make(true);
+        return Datatables::of(EmployeeRolesTrainingTools::getListByER($data))->make(true);
     }
 
     /**
@@ -471,11 +472,10 @@ class SystemController extends Controller
 
         $data = array (
             'er_id'         => $request['training_er_id'],
-            'tool_id'       => $request['training_tool_id'],
-            'link' => $request['training_link']
+            'tool_id'       => $request['training_tool_id']
         );
 
-        $response = TrainingTools::create($data);
+        $response = EmployeeRolesTrainingTools::create($data);
         $response = Utils::msgAlerts($response,"Training Succesfully Added!",$request->ajax());
         
         return $response;
@@ -486,5 +486,81 @@ class SystemController extends Controller
         $response = Utils::msgAlerts($response,"Training Succesfully Remove!",$request->ajax());
         
         return $response;
+    }
+
+    public function trainingTools(){
+
+        if(!Utils::permissionsViews('view_training_tools')){
+            return redirect(route('home'));
+        };
+
+        $list = TrainingTools::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+        
+        $data = array(
+            'title'     => 'Training Management',
+            'fav_title' => 'Training Management',
+            'side_bar'  => 'side_system',
+            'sub_bar'   => 'sub_training',
+            'utils'     => Utils::class,
+            'list' => $list
+        );
+        
+        return view('pages.system.training')->with($data);
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function tools_training_validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255', 'unique:training_tools'],
+        ]);
+    }
+
+    public function addTrainingTool(Request $request){
+
+        if(!Utils::permissionsViews('add_tools')){
+            return redirect(route('home'));
+        };
+
+        if(empty($request['data_id'])){
+            $validator = $this->tools_training_validator($request->all())->validate();
+
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description'],
+                'link'   => $request['link']
+            );
+            $response = TrainingTools::create($data);
+        } else {
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description'],
+                'link'   => $request['link']
+            );
+            $response = TrainingTools::updateData($request['data_id'],$data);
+        }
+        
+        Utils::msgAlerts($response);
+        return redirect()->route('systemTrainingTools');
+    }
+
+    public function updateTrainingTool(Request $request)
+    {
+        if(!Utils::permissionsViews('edit_training_tools')){
+            return redirect(route('home'));
+        };
+
+        $data = array (
+            'status'     => $request['status']
+        );
+        $response = TrainingTools::updateData($request['status_id'],$data);
+
+        Utils::msgAlerts($response);
+        return redirect()->route('systemTrainingTools');
     }
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\TrainingTools;
+use App\EmployeeRolesTrainingTools;
 use App\Tools;
 use App\User;
 class UserTrainingTools extends Model
@@ -43,7 +44,7 @@ class UserTrainingTools extends Model
     	$data = array(
     		"er_id" => $er_id
     	);
-    	$training_tools_list = TrainingTools::getListByER($data);
+    	$training_tools_list = EmployeeRolesTrainingTools::getListByER($data);
     	$user_training_tools = self::where('user_id',$user_id)->where('er_id',$er_id)->pluck('tool_id')->toArray();
     	if(!empty($training_tools_list)){
     		foreach ($training_tools_list as $key => $value) {
@@ -67,7 +68,7 @@ class UserTrainingTools extends Model
     }
 
     public static function toolsSummaryReport(){
-        $training_tools_list = $training_tools_list = TrainingTools::all()->groupBy('tool_id')->toArray();
+        $training_tools_list = $training_tools_list = EmployeeRolesTrainingTools::all()->groupBy('tool_id')->toArray();
         //echo '<pre>';var_dump($training_tools_list);die();
 
         $data = array();
@@ -81,7 +82,7 @@ class UserTrainingTools extends Model
                         $on_going = self::where('tool_id',$value['tool_id'])->where('er_id',$value['er_id'])->where('status',self::ON_GOING)->count();
                         $completed = self::where('tool_id',$value['tool_id'])->where('er_id',$value['er_id'])->where('status',self::COMPLETED)->count();
                         array_push($data, array(
-                                'tool_name'       => Tools::find($value['tool_id'])->name,
+                                'tool_name'       => TrainingTools::find($value['tool_id'])->name,
                                 'er_id'           => $value['er_id'],
                                 'not_yet_started' => $not_yet_started,
                                 'on_going'        => $on_going,

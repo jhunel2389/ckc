@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\EmployeeRolesTrainingTools;
 class TrainingTools extends Model
 {
     /**
@@ -23,8 +23,19 @@ class TrainingTools extends Model
         return self::insert($data);
     }
 
-    public static function getListByER($data)
+    public static function getList(array $status)
     {
-        return self::leftJoin('tools', 'tools.id', '=', 'training_tools.tool_id')->select('training_tools.id as id','tools.name as name', 'tools.id as tool_id', 'training_tools.link as link')->where('training_tools.er_id', $data['er_id'])->get();
+        return self::whereIn('status', $status)->get();
+    }
+
+    public static function updateData($id,array $data)
+    {
+        return self::where('id', $id)->update($data);
+    }
+
+    public static function getAvailableToolsPerTraining(array $status,$er_id = null)
+    {   
+        $tool_by_er_id = EmployeeRolesTrainingTools::where('er_id', '=', $er_id)->pluck('tool_id')->toArray();
+        return self::whereIn('status', $status)->whereNotIn('id',$tool_by_er_id)->get();
     }
 }

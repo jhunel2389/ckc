@@ -8,7 +8,7 @@ class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
-     * php artisan make:migration create_users_table
+     * php artisan make:migration create_employee_roles_training_tools_table
      * php artisan make:migration add_columns_to_users_table --table=users
      % php artisan migrate
      * @return void

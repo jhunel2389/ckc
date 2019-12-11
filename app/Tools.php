@@ -69,10 +69,5 @@ class Tools extends Model
         
         return $data;
     }
-
-    public static function getAvailableToolsPerTraining(array $status,$er_id = null)
-    {   
-        $tool_by_er_id = TrainingTools::where('er_id', '=', $er_id)->pluck('tool_id')->toArray();
-        return self::whereIn('status', $status)->whereNotIn('id',$tool_by_er_id)->get();
-    }
+    
 }

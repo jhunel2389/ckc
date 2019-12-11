@@ -11,6 +11,7 @@ use App\Roles;
 use App\EmployeeRolesTools;
 use App\UserTools;
 use App\UserTrainingTools;
+use App\EmployeeRolesTrainingTools;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
