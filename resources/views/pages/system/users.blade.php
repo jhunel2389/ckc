@@ -37,7 +37,7 @@
                       <td>{{$value['email']}}</td>
                       <td>{{$value['role_description']}}</td>
                       <td>{{($value['er_name'])?$value['er_name']:'No Data Yet'}}</td>
-                      <td>{{$value['team']}}</td>
+                      <td>{{($value['team_name'])?$value['team_name']:'No Team Yet'}}</td>
                       <td>{{$utils::statusIntToString($value['status'])}}</td>
                       <td>
                         <form action="{{ route('updateTeam') }}" method="POST" id="formUpdateStatus">
