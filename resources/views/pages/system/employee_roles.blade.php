@@ -140,12 +140,22 @@
                   <div class="card-body">
                     <div class="form-group">
                       <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
+                          <div class="row">
+                          <div class="col-md-4">
                           <label>Select Tools:</label>
-                          <span class="span-modal" id="tool_name"></span>
+                          <span class="span-modal badge badge-primary" id="tool_name"></span>
                           <input type="hidden" id="tool_id" name="tool_id">
                           <input type="hidden" id="er_id" name="er_id">
-                          <br>
+                          </div> 
+                          <div class="col-md-4">
+                          <label>Select Category:</label>
+                          <span class="span-modal badge badge-primary" id="cat_name"></span>
+                          <input type="hidden" id="cat_id" name="cat_id">
+                          </div>        
+                          </div>               
+                        </div>
+                        <div class="col-md-4">
                           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-tools" disabled>
                             Tools
                           </button>
@@ -153,10 +163,6 @@
                           </div>
                         </div>
                         <div class="col-md-4">
-                          <label>Select Category:</label>
-                          <span class="span-modal" id="cat_name"></span>
-                          <input type="hidden" id="cat_id" name="cat_id">
-                          <br>
                           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             Category
                           </button>
@@ -166,7 +172,7 @@
                           </div>
                         </div>
                         <div class="col-md-4">
-                          <button type="button" class="btn btn-block btn-success btn-sm" onclick="addTools()">Add</button>
+                          <button type="button" class="btn btn-block btn-success" onclick="addTools()">Add</button>
                         </div>
                       </div>
                     </div>
@@ -226,7 +232,7 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content" id="modal-content-training">
               <div class="modal-header">
-                <h4 class="modal-title" id="modal-h4">Tools Management</h4>
+                <h4 class="modal-title" id="modal-h4">Training Management</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -236,20 +242,20 @@
                   <div class="card-body">
                     <div class="form-group">
                       <div class="row">
-                        <div class="col-md-4">
-                          <label>Select Tools:</label>
-                          <span class="span-modal" id="training_tool_name"></span>
+                        <div class="col-md-12">
+                          <label>Select Training/Tools:</label>
+                          <span class="span-modal  badge badge-primary" id="training_tool_name"></span>
                           <input type="hidden" id="training_tool_id" name="training_tool_id">
                           <input type="hidden" id="training_er_id" name="training_er_id">
-                          <br>
+                        </div>
+                        <div class="col-md-9">
                           <button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="btn-training-tools" disabled>
                             Tools
                           </button>
                           <div class="dropdown-menu" id="drp-training-tools">
                           </div>
                         </div>
-                        <div class="col-md-4">
-                          <br>
+                        <div class="col-md-3">
                           <button type="button" class="btn btn-block btn-success" onclick="addTraining()">Add</button>
                         </div>
                       </div>
@@ -492,6 +498,7 @@
           $('#tool_name').html('');
           $('#cat_id').val('');
           $('#cat_name').text('');
+          $('#btn-tools').attr('disabled','');
           getTools();
           loadPrimaryToolsTable();
           loadSecondaryToolsTable();
@@ -501,6 +508,7 @@
           $('#modal-content-training').prepend('<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>');
           $('#training_tool_id').val('');
           $('#training_tool_name').html('');
+          $('#btn-training-tools').attr('disabled','');
           getTrainingTools();
           loadTrainingToolsTable()
         }

@@ -137,19 +137,20 @@
                   <div class="card-body">
                     <div class="form-group">
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <label>Select Employee Role:</label>
-                          <span class="span-modal" id="er_name"></span>
-                          <input type="hidden" id="er_id" name="er_id">
-                          <br>
+                          <span class="span-modal badge badge-primary" id="er_name"></span>
+                          <input type="hidden" id="er_id" name="er_id">                          
+                        </div>
+                        <div class="col-md-9">
                           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-team" disabled>
                             Employee Role
                           </button>
                           <div class="dropdown-menu" id="drp-er">
                           </div>
                         </div>
-                        <div class="col-md-6">
-                          <button type="button" class="btn btn-block btn-success btn-sm" onclick="addER()">Add</button>
+                        <div class="col-md-3">
+                          <button type="button" class="btn btn-block btn-success" onclick="addER()">Add</button>
                         </div>
                       </div>
                     </div>

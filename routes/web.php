@@ -18,7 +18,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
+//Guest
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'admin'], function()
+{
+    Route::get('/bookmarks', 'GuestController@viewGuestBookmarks')->name('viewGuestBookmarks');
+});
+
 
 Route::get('/toolsProficiency', 'ReportController@toolsProficiency');
 Route::get('/trainingStatus', 'ReportController@trainingStatus');
@@ -37,6 +44,10 @@ Route::get('/systemUsers', 'SystemController@users')->name('systemUsers');
 Route::get('/systemTeams', 'SystemController@teams')->name('systemTeams');
 Route::post('/addTeams', 'SystemController@addTeams')->name('addTeams');
 Route::post('/updateTeam', 'SystemController@updateTeam')->name('updateTeam');
+
+Route::get('/systemBookmarks', 'SystemController@bookmarks')->name('systemBookmarks');
+Route::post('/addBookmarks', 'SystemController@addBookmarks')->name('addBookmarks');
+Route::post('/updateBookmarks', 'SystemController@updateBookmarks')->name('updateBookmarks');
 
 Route::get('/systemEmployeeRoles', 'SystemController@employeeRoles')->name('systemEmployeeRoles');
 Route::post('/addEmployeeRoles', 'SystemController@addEmployeeRoles')->name('addEmployeeRoles');

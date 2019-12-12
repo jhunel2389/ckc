@@ -90,6 +90,14 @@
                 </a>
               </li>
               @endif
+              @if($utils::checkPermissions('view_boolmarks'))
+              <li class="nav-item">
+                <a href="{{ url('/systemBookmarks') }}" class="nav-link {{ (isset($sub_bar) && ($sub_bar == 'sub_bookmark')) ? 'active' : ''  }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bookmarks</p>
+                </a>
+              </li>
+              @endif
             </ul>
           </li>
           @endif

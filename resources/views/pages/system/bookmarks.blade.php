@@ -51,20 +51,20 @@
                       <td>{{$utils::statusIntToString($value['status'])}}</td>
                       <td>
                         
-                        <form action="{{ route('updateTrainingTool') }}" method="POST" id="formUpdateStatus">
+                        <form action="{{ route('updateBookmarks') }}" method="POST" id="formUpdateStatus">
                           @csrf
-                          @if($utils::checkPermissions('edit_training_tools'))
+                          @if($utils::checkPermissions('edit_bookmarks'))
                           <button type="button" class="btn btn-xs" onclick="showModal('update_item','{{$value['id']}}')"><i class="fa fa-edit" title="Edit"></i></button>
                           @endif
-                          @if($value['status'] != 2 && $utils::checkPermissions('disable_training_tools'))
+                          @if($value['status'] != 2 && $utils::checkPermissions('disable_bookmarks'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('disable_item','{{2}}','{{$value['id']}}')"><i class="fa fa-ban" title="Disable"></i>
                             </button>
                           @endif
-                          @if($value['status'] != 1 && $utils::checkPermissions('disable_training_tools'))
+                          @if($value['status'] != 1 && $utils::checkPermissions('disable_bookmarks'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('active_item','{{1}}','{{$value['id']}}')"><i class="fa fa-check-circle" title="Active"></i>
                             </button>
                           @endif
-                          @if($utils::checkPermissions('delete_training_tools'))
+                          @if($utils::checkPermissions('delete_bookmarks'))
                             <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-default" onclick="editStatus('trash_item','{{0}}','{{$value['id']}}')"><i class="fa fa-trash" title="Delete"></i></button>
                             <input type="hidden" id="status" name="status">
                             <input type="hidden" id="status_id" name="status_id">
@@ -88,18 +88,18 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-    @if($utils::checkPermissions('add_training_tools') || $utils::checkPermissions('edit_training_tools'))
+    @if($utils::checkPermissions('add_bookmarks') || $utils::checkPermissions('edit_bookmarks'))
       <!-- ADD MODAL -->
       <div class="modal fade" id="modal-form">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title" id="modal-h4">Add Tool</h4>
+                <h4 class="modal-title" id="modal-h4">Add Bookmarks</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="{{ route('addTrainingTool') }}" method="POST" id="formAddTeams">
+              <form action="{{ route('addBookmarks') }}" method="POST" id="formAddTeams">
                 @csrf
                 <div class="modal-body">
                     <!-- form start -->
@@ -113,8 +113,8 @@
                           <input type="text" class="form-control" id="description" name="description" placeholder="Enter team description" value="">
                         </div>
                         <div class="form-group">
-                          <label for="link">Training Link</label>
-                          <input type="text" class="form-control" id="link" name="link" placeholder="Enter Training Link" value="">
+                          <label for="link">Bookmarks Link</label>
+                          <input type="text" class="form-control" id="link" name="link" placeholder="Enter Bookmarks Link" value="">
                         </div>
                         <input type="hidden" id="data_id" name="data_id">
                       </div>

@@ -17,6 +17,7 @@ use App\TeamEmployeeRoles;
 use App\RolesPermission;
 use App\TrainingTools;
 use App\EmployeeRolesTrainingTools;
+use App\Bookmarks;
 
 class SystemController extends Controller
 {
@@ -562,5 +563,82 @@ class SystemController extends Controller
 
         Utils::msgAlerts($response);
         return redirect()->route('systemTrainingTools');
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function bookmarks_validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255', 'unique:bookmarks'],
+        ]);
+    }
+
+    public function bookmarks(){
+
+        if(!Utils::permissionsViews('view_training_tools')){
+            return redirect(route('home'));
+        };
+
+        $list = Bookmarks::getList([self::STATUS_ACTIVE,self::STATUS_DISABLED]);
+        
+        $data = array(
+            'title'     => 'Bookmarks Management',
+            'fav_title' => 'Bookmarks Management',
+            'side_bar'  => 'side_system',
+            'sub_bar'   => 'sub_bookmark',
+            'utils'     => Utils::class,
+            'list' => $list
+        );
+        
+        //var_dump(Utils::testUtils());die();
+        return view('pages.system.bookmarks')->with($data);
+    }
+
+    public function addBookmarks(Request $request){
+
+        if(!Utils::permissionsViews('add_tools')){
+            return redirect(route('home'));
+        };
+
+        if(empty($request['data_id'])){
+            $validator = $this->bookmarks_validator($request->all())->validate();
+
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description'],
+                'link'   => $request['link']
+            );
+            $response = Bookmarks::create($data);
+        } else {
+            $data = array (
+                'name'          => $request['name'],
+                'description'   => $request['description'],
+                'link'   => $request['link']
+            );
+            $response = Bookmarks::updateData($request['data_id'],$data);
+        }
+        
+        Utils::msgAlerts($response);
+        return redirect()->route('systemBookmarks');
+    }
+
+    public function updateBookmarks(Request $request)
+    {
+        if(!Utils::permissionsViews('edit_training_tools')){
+            return redirect(route('home'));
+        };
+
+        $data = array (
+            'status'     => $request['status']
+        );
+        $response = Bookmarks::updateData($request['status_id'],$data);
+
+        Utils::msgAlerts($response);
+        return redirect()->route('systemBookmarks');
     }
 }

@@ -38,6 +38,7 @@
                                         @csrf
                                     </form>
           </a>
+          <a href="{{ route('viewGuestBookmarks') }}" target="_blank" class="dropdown-item"> <i class="fas fa-bookmark mr-2"></i> Bookmarks</a>
         </div>
       </li>
       <li class="nav-item">

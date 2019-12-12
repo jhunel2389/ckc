@@ -139,6 +139,26 @@ class PermissionTableSeeder extends Seeder
             [
                 "permission_key" => "delete_training_tools",
                 "description" => "System Training Tools Delete",
+            ],
+            [
+                "permission_key" => "view_bookmarks",
+                "description" => "View Bookmarks Tools",
+            ],
+            [
+                "permission_key" => "add_bookmarks",
+                "description" => "System Training Tools Add",
+            ],
+            [
+                "permission_key" => "edit_bookmarks",
+                "description" => "System Bookmarks Tools Edit",
+            ],
+            [
+                "permission_key" => "disable_bookmarks",
+                "description" => "System Bookmarks Tools Disable",
+            ],
+            [
+                "permission_key" => "delete_bookmarks",
+                "description" => "System Bookmarks Tools Delete",
             ]
     	];
 
