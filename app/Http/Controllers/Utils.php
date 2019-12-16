@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\RolesPermission;
 use App\Teams;
+use App\UserImage;
 class Utils extends Controller
 {
 
@@ -90,5 +91,9 @@ class Utils extends Controller
 
     public static function getActiveTeams(){
         return Teams::getTeamList([self::STATUS_ACTIVE]);
+    }
+
+    public static function getUserAvatar(){
+        return UserImage::userAvatar(Auth::user()->id);
     }
 }

@@ -12,6 +12,7 @@ use App\EmployeeRolesTools;
 use App\UserTools;
 use App\UserTrainingTools;
 use App\EmployeeRolesTrainingTools;
+use App\UserImage;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -29,6 +30,8 @@ class ProfileController extends Controller
         }
 
         $user_info = User::UserInfo($id);
+
+        $user_avatar = UserImage::userAvatar($id);
         $team_list = Teams::getTeamList([self::STATUS_ACTIVE]);
         $role_list = Roles::all();
         $primary_tools = EmployeeRolesTools::getUnusedTools(array (
@@ -54,6 +57,7 @@ class ProfileController extends Controller
             'fav_title'             => 'CKC | Profile',
             'side_bar'              => 'side_profile',
             'user_info'             => $user_info,
+            'user_avatar'           => $user_avatar,
             'utils'                 => Utils::class,
             'team_list'             => $team_list,
             'role_list'             => $role_list,
@@ -83,7 +87,8 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
-    {
+    {   
+        app('App\Http\Controllers\ImageController')->resizeImagePost($request);
         $data = array (
             'firstname'             => $request['firstname'],
             'lastname'              => $request['lastname'],

@@ -23,4 +23,6 @@ class Controller extends BaseController
     const NOT_YET_STARTED = 1;
     const ON_GOING = 2;
     const COMPLETED = 3;
+
+    const IMG_AVATAR = 1;
 }

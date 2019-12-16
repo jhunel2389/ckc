@@ -11,9 +11,15 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="{{asset('resources/dist/img/user4-128x128.jpg')}}"
+                  @if(!empty($user_avatar))
+                    <img class="profile-user-img img-fluid img-circle"
+                       src="{{asset('images/'.$user_avatar)}}"
                        alt="User profile picture">
+                   @else
+                   <img class="profile-user-img img-fluid img-circle"
+                       src="{{asset('resources/dist/img/empty_avatar.jpg')}}"
+                       alt="User profile picture">
+                   @endif
                 </div>
 
                 <h3 class="profile-username text-center">{{$user_info['firstname']}} {{$user_info['lastname']}}</h3>
@@ -351,11 +357,30 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="{{ route('editProfile') }}" method="POST" id="formEditProfile">
+            <form action="{{ route('editProfile') }}" method="POST" id="formEditProfile" enctype="multipart/form-data">
               @csrf
               <div class="modal-body">
                   <!-- form start -->
                     <div class="card-body">
+                      <div class="text-center">
+                        @if(!empty($user_avatar))
+                          <img class="profile-user-img img-fluid img-circle"
+                             src="{{asset('images/'.$user_avatar)}}"
+                             alt="User profile picture">
+                         @else
+                         <img class="profile-user-img img-fluid img-circle"
+                             src="{{asset('resources/dist/img/empty_avatar.jpg')}}"
+                             alt="User profile picture">
+                         @endif
+                      </div>
+                      <div class="form-group">
+                        <label for="image_upload">Upload Photo</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            {!! Form::file('image', array('class' => 'image')) !!}
+                          </div>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" name="username" readonly value="{{$user_info['username']}}">

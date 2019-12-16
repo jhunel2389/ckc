@@ -94,3 +94,5 @@ Route::get('tools-summary-name-report', 'ReportController@toolsSummaryNameReport
 Route::get('training-tools-summary-report', 'ReportController@trainingToolsSummaryReport')->name('datatables.training-tools-summary-report');
 Route::get('training-tools-summary-name-report', 'ReportController@trainingToolsSummaryNameReport')->name('datatables.training-tools-summary-name-report');
 Route::get('system-permission-by-role', 'SystemController@getSystemPermissionByRole')->name('datatables.system-permission-by-role');
+
+Route::post('resizeImagePost', 'ImageController@resizeImagePost')->name('resizeImagePost');
