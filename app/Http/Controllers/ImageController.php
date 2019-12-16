@@ -48,6 +48,7 @@ class ImageController extends Controller
                     'type'        => self::IMG_AVATAR
                 ));
             } else {
+                unlink($destinationPath.'/'.Utils::getUserAvatar());
                 $data = UserImage::updateAvatar(array (
                     'user_id'          => Auth::User()->id,
                     'file_name'    => $input['imagename']
