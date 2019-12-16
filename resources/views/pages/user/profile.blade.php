@@ -393,18 +393,18 @@
                       @if($utils::checkPermissions('edit_user_profile'))
                         <div class="form-group">
                           <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                               <label>Current System Role:</label> <span id="role_name"> {{$user_info['role_description']}}</span>
                             </div>
-                            <div class="col-md-3 text-right">
+                            <div class="col-md-6 text-right">
                               <input type="hidden" class="form-control" id="role_key" name="role_key" value="">
-                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              <button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown">
                                 Select Role
                               </button>
                               <div class="dropdown-menu">
                                 @if(!empty($role_list))
                                   @foreach($role_list as $key => $value)
-                                    @if($value['id'] != $user_info['team_id'])
+                                    @if($value['role_key'] != $user_info['role_key'])
                                     <a class="dropdown-item" href="#" onclick="selectedRole('{{$value['description']}}','{{$value['role_key']}}')">
                                     {{$value['description']}}
                                     </a>
@@ -428,7 +428,7 @@
                           </div>
                           <div class="col-md-6 text-right">
                             <input type="hidden" class="form-control" id="team" name="team" value="{{$user_info['team_id']}}">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='btn-team'>
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id='btn-team'>
                               Select Team
                             </button>
                             <div class="dropdown-menu" id='drp-team'>
@@ -452,7 +452,7 @@
                           </div>
                           <div class="col-md-6 text-right">
                             <input type="hidden" class="form-control" id="er_key" name="er_key" value="">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="btn-er" disabled>
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" id="btn-er" disabled>
                               Select Employee Role
                             </button>
                             <div class="dropdown-menu" id="drp-er">
