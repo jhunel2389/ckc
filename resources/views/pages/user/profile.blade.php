@@ -364,11 +364,11 @@
                     <div class="card-body">
                       <div class="text-center">
                         @if(!empty($user_avatar))
-                          <img class="profile-user-img img-fluid img-circle"
+                          <img class="profile-user-img img-fluid img-circle avatar-preview"
                              src="{{asset('images/'.$user_avatar)}}"
                              alt="User profile picture">
                          @else
-                         <img class="profile-user-img img-fluid img-circle"
+                         <img class="profile-user-img img-fluid img-circle avatar-preview"
                              src="{{asset('resources/dist/img/empty_avatar.jpg')}}"
                              alt="User profile picture">
                          @endif
@@ -377,7 +377,8 @@
                         <label for="image_upload">Upload Photo</label>
                         <div class="input-group">
                           <div class="custom-file">
-                            {!! Form::file('image', array('class' => 'image')) !!}
+                            {!! Form::file('image', array('class' => 'image custom-file-input','id' => 'image')) !!}
+                            <label class="custom-file-label" id="avatar-preview-label">Choose file</label>
                           </div>
                         </div>
                       </div>
@@ -587,6 +588,22 @@
           $('#span-sec-prof').html($name);
         }
         clearHiddenInput();
+
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            console.log(reader);
+            reader.onload = function(e) {
+              $('.avatar-preview').attr('src', e.target.result);
+            }
+            $('#avatar-preview-label').text(input.files[0].name);
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+
+        $("#image").change(function() {
+          readURL(this);
+        });
       </script>
     @endsection
 @endsection
