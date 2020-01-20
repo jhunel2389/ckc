@@ -575,6 +575,7 @@ class SystemController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255', 'unique:bookmarks'],
+            'team_id' => ['required'],
         ]);
     }
 
@@ -640,5 +641,37 @@ class SystemController extends Controller
 
         Utils::msgAlerts($response);
         return redirect()->route('systemBookmarks');
+    }
+
+    public function teamBookmarkData(Request $request){
+        $data = array (
+            'team_id'          => $request['team_id'],
+            'status'           => [self::STATUS_ACTIVE,self::STATUS_DISABLED]
+        );
+        return Datatables::of(Bookmarks::getListByTeam($data))->make(true);
+    }
+
+    public function addTeamsBookmarkData(Request $request){
+        $validator = $this->bookmarks_validator($request->all())->validate();
+
+        $data = array (
+            'name'          => $request['name'],
+            'description' => $request['description'],
+            'link'          => $request['link'],
+            'team_id'   => $request['team_id']
+        );
+
+        $response = Bookmarks::create($data);
+        $response = Utils::msgAlerts($response,"Bookmark Succesfully Added!",$request->ajax());
+        
+        return $response;
+    }
+
+    public function deleteTeamBookmarkData(Request $request){
+
+        $response = Bookmarks::destroy($request['bm_id']);
+        $response = Utils::msgAlerts($response,"Employee Role Succesfully Remove!",$request->ajax());
+        
+        return $response;
     }
 }

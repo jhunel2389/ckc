@@ -80,9 +80,9 @@
       <p class="mb-0">
         <a href="{{ url('/register') }}" class="text-center">Register a new employee</a>
       </p>
-      <p class="mb-0">
+      <!-- <p class="mb-0">
         <a href="{{ route('viewGuestBookmarks') }}" target="_blank" class="text-center">Bookmarks</a>
-      </p>
+      </p> -->
     </div>
     <!-- /.login-card-body -->
   </div>

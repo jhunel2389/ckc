@@ -77,6 +77,10 @@ Route::get('get-secondary-tools-data', 'SystemController@secondaryToolsData')->n
 Route::post('add-er-tools-data', 'SystemController@addERToolsData')->name('ajax.add-er-tools');
 Route::post('delete-er-tools-data', 'SystemController@deleteERToolsData')->name('ajax.delete-er-tools');
 
+Route::get('get-team-bookmark-data', 'SystemController@teamBookmarkData')->name('datatables.team-bookmark');
+Route::post('add-team-bookmark-data', 'SystemController@addTeamsBookmarkData')->name('ajax.add-team-bm');
+Route::post('delete-team-bookmark-data', 'SystemController@deleteTeamBookmarkData')->name('ajax.delete-team-bookmark');
+
 Route::get('get-team-er-data', 'SystemController@teamERData')->name('datatables.team-er');
 Route::post('add-team-er-data', 'SystemController@addTeamsERData')->name('ajax.add-team-er');
 Route::post('delete-team-er-data', 'SystemController@deleteTeamERData')->name('ajax.delete-team-er');

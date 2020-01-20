@@ -33,4 +33,9 @@ class Bookmarks extends Model
     {
         return self::where('id', $id)->update($data);
     }
+
+    public static function getListByTeam($data)
+    {
+        return self::where('team_id', $data['team_id'])->whereIn('status', $data['status'])->get();
+    }
 }
