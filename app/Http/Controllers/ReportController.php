@@ -50,10 +50,10 @@ class ReportController extends Controller
     }
 
     public function trainingToolsSummaryReport(Request $request){
-        return Datatables::of(UserTrainingTools::toolsSummaryReport())->make(true);
+        return Datatables::of(UserTrainingTools::TrainingToolsSummaryReport())->make(true);
     }
 
     public function trainingToolsSummaryNameReport(Request $request){
-        return Datatables::of(UserTrainingTools::toolsSummaryNameReport())->make(true);
+        return Datatables::of(UserTrainingTools::TrainingToolsSummaryNameReport())->make(true);
     }
 }

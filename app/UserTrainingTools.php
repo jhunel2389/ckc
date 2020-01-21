@@ -99,7 +99,7 @@ class UserTrainingTools extends Model
         return $data;
     }
 
-    public static function toolsSummaryReport(){
+    public static function TrainingToolsSummaryReport(){
         
         $data = self::getTrainingByER();
 
@@ -135,7 +135,7 @@ class UserTrainingTools extends Model
         return $response;
     }
 
-    public static function toolsSummaryNameReport(){
+    public static function TrainingToolsSummaryTeamReport(){
 
         $training_tools_list = $training_tools_list = EmployeeRolesTrainingTools::all()->groupBy('tool_id')->toArray();
 
@@ -200,5 +200,68 @@ class UserTrainingTools extends Model
         }
         
         return $response;
+    }
+
+    public static function TrainingToolsSummaryNameReport(){
+
+        $training_tools_list = $training_tools_list = EmployeeRolesTrainingTools::all()->groupBy('tool_id')->toArray();
+
+        $data = array();
+
+        if(!empty($training_tools_list)){
+            foreach ($training_tools_list as $training_tools_list_key => $training_tools_list_value) {
+                if(!empty($training_tools_list_value)){
+                    foreach ($training_tools_list_value as $key => $training_tools_value) {
+                        $started_users = self::where('er_id',$training_tools_value['er_id'])->where('tool_id',$training_tools_value['tool_id'])->pluck('user_id')->toArray();
+
+                        $not_yet_started = User::whereNotIn('id',$started_users)->where('employee_role_key',$training_tools_value['er_id'])->get();
+                        $on_going = self::where('tool_id',$training_tools_value['tool_id'])->where('er_id',$training_tools_value['er_id'])->where('status',self::ON_GOING)->get();
+                        $completed = self::where('tool_id',$training_tools_value['tool_id'])->where('er_id',$training_tools_value['er_id'])->where('status',self::COMPLETED)->get();
+
+                        if (!empty($not_yet_started)) {
+                            foreach ($not_yet_started as $key => $value) {
+                                array_push($data, array(
+                                        'tool_name'       => TrainingTools::find($training_tools_value['tool_id'])->name,
+                                        'team'           => Teams::find($value['team'])->team_name,
+                                        'user_name' => $value['firstname'].' '.$value['lastname'],
+                                        'status'        => "Not Yet Started"
+                                        )
+                                );
+                            }
+                            
+                        }
+
+                        if (!empty($on_going)) {
+                            foreach ($on_going as $key => $value) {
+                                array_push($data, array(
+                                        'tool_name'       => TrainingTools::find($value['tool_id'])->name,
+                                        'team'           => Teams::find($value['team_id'])->team_name,
+                                        'user_name' => User::find($value['user_id'])->firstname.' '.User::find($value['user_id'])->lastname,
+                                        'status'        => "On Going"
+                                        )
+                                );
+                            }
+                            
+                        }
+
+                        if (!empty($completed)) {
+                            foreach ($completed as $key => $value) {
+                                array_push($data, array(
+                                        'tool_name'       => TrainingTools::find($value['tool_id'])->name,
+                                        'team'           => Teams::find($value['team_id'])->team_name,
+                                        'user_name' => User::find($value['user_id'])->firstname.' '.User::find($value['user_id'])->lastname,
+                                        'status'        => "Completed"
+                                        )
+                                );
+                            }
+                            
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+        return $data;
     }
 }
