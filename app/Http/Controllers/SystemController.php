@@ -574,7 +574,7 @@ class SystemController extends Controller
     protected function bookmarks_validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255', 'unique:bookmarks'],
+            'name' => ['required', 'string', 'max:255'],
             'team_id' => ['required'],
         ]);
     }
